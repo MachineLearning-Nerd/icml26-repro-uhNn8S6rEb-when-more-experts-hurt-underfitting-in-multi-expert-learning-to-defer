@@ -1,6 +1,6 @@
 {
   "fixed_command": "uv run --frozen python run.py",
-  "git_sha": "3c66c64439b7198265ac0d75ab7de32c509040ac",
+  "git_sha": "99a3ab36f71e5de41b631cc6c9e4bce93182c8af",
   "seed": 260217144,
   "estimated_cores": 4,
   "selected_flavor": "cpu-upgrade",
@@ -9,8 +9,8 @@
   "actual_cpu_affinity": 64,
   "cuda_available": false,
   "cuda_device_count": 0,
-  "runtime_seconds": 33.774757639999734,
+  "runtime_seconds": 229.0411262619309,
   "python": "3.12.12 (main, Feb  3 2026, 03:12:00) [GCC 12.2.0]",
-  "platform": "Linux-6.12.94-123.192.amzn2023.x86_64-x86_64-with-glibc2.36",
+  "platform": "Linux-6.12.90-120.164.amzn2023.x86_64-x86_64-with-glibc2.36",
   "stage": "micebone-target-audit"
 }

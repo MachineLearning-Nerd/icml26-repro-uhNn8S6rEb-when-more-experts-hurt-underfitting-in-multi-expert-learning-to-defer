@@ -11,6 +11,214 @@
   "complete_majority_tie_count": 375,
   "global_priority_tie_rules_ranked_by_table_3_mae": [
     {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "g",
+        "ug",
+        "nr"
+      ],
+      "mean_absolute_error_percentage_points": 0.009665244970945785,
+      "maximum_absolute_error_percentage_points": 0.10635773213972755,
+      "exact_rounded_matches_out_of_16": 14,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 84.74635773213973,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 84.64031108230719,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 85.009654203967,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 84.7051198963059,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 87.43198174477796,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.3253402462735,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 88.1341056696507,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 85.67725210628646,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 81.74477795330876,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 79.58522359040829,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 85.9575215025452,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 84.64031108230719,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 87.04581358609795,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 87.88075178224238,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 85.44848165701247,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 84.899546338302,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "ug",
+        "g",
+        "nr"
+      ],
+      "mean_absolute_error_percentage_points": 0.17612108490830725,
+      "maximum_absolute_error_percentage_points": 0.38419313026571444,
+      "exact_rounded_matches_out_of_16": 1,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 84.90433561523609,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 84.44588464031108,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 85.15007898894154,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 84.44588464031108,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 87.39687554853431,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.71419313026571,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 88.20431806213797,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 86.00129617627998,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 81.63945936457785,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 79.39079714841219,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 85.90486220817975,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 84.31626701231367,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 86.85272950675794,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 88.1399870382372,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 85.46603475513429,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 84.899546338302,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "ug",
+        "nr",
+        "g"
+      ],
+      "mean_absolute_error_percentage_points": 0.35375766831777167,
+      "maximum_absolute_error_percentage_points": 1.2310563836681752,
+      "exact_rounded_matches_out_of_16": 0,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 84.623486045287,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 83.40894361633183,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 84.95699490960155,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 84.05703175631886,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 87.39687554853431,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.84381075826312,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 87.6601720203616,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 85.80686973428386,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 81.6921186589433,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 79.5204147764096,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 86.48411444619975,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 84.96435515230071,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 86.83517640863613,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 87.9455605962411,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 85.8697560119361,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 85.80686973428386,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "all_annotations",
       "priority": [
         "g",
         "ug",
@@ -79,6 +287,7 @@
       ]
     },
     {
+      "vote_pool": "all_annotations",
       "priority": [
         "ug",
         "g",
@@ -147,6 +356,7 @@
       ]
     },
     {
+      "vote_pool": "all_annotations",
       "priority": [
         "ug",
         "nr",
@@ -215,6 +425,7 @@
       ]
     },
     {
+      "vote_pool": "all_annotations",
       "priority": [
         "g",
         "nr",
@@ -283,6 +494,7 @@
       ]
     },
     {
+      "vote_pool": "all_annotations",
       "priority": [
         "nr",
         "ug",
@@ -351,6 +563,76 @@
       ]
     },
     {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "g",
+        "nr",
+        "ug"
+      ],
+      "mean_absolute_error_percentage_points": 1.085839885527748,
+      "maximum_absolute_error_percentage_points": 2.5304212743549215,
+      "exact_rounded_matches_out_of_16": 1,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 83.14902580305424,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 84.25145819831496,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 83.35966298051606,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 84.44588464031108,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 89.06441987010707,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.3253402462735,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 88.62559241706161,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 85.41801685029164,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 79.19957872564508,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 78.67790019442644,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 84.95699490960155,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 84.51069345430979,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 89.48569422503071,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 88.78807517822423,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 87.67772511848341,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 85.93648736228127,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "all_annotations",
       "priority": [
         "nr",
         "g",
@@ -414,6 +696,144 @@
           "train_accuracy_percent": 87.41442864665613,
           "paper_train_accuracy_percent": 85.45,
           "test_accuracy_percent": 86.19572261827608,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "nr",
+        "g",
+        "ug"
+      ],
+      "mean_absolute_error_percentage_points": 1.2417414060492327,
+      "maximum_absolute_error_percentage_points": 2.631446375285236,
+      "exact_rounded_matches_out_of_16": 0,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 82.86817623310515,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 83.21451717433571,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 83.16657890117605,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 84.05703175631886,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 89.06441987010707,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.4549578742709,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 88.08144637528524,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 85.22359040829552,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 79.25223802001054,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 78.80751782242385,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 85.53624714762155,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 85.15878159429683,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 89.4681411269089,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 88.59364873622813,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 88.08144637528524,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 86.84381075826312,
+          "paper_test_accuracy_percent": 84.9
+        }
+      ]
+    },
+    {
+      "vote_pool": "complete_annotators",
+      "priority": [
+        "nr",
+        "ug",
+        "g"
+      ],
+      "mean_absolute_error_percentage_points": 1.2586246135872594,
+      "maximum_absolute_error_percentage_points": 2.648999473407059,
+      "exact_rounded_matches_out_of_16": 0,
+      "experts": [
+        {
+          "expert_id": "047",
+          "train_accuracy_percent": 83.02615411620151,
+          "paper_train_accuracy_percent": 84.64,
+          "test_accuracy_percent": 83.0200907323396,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "290",
+          "train_accuracy_percent": 83.30700368615061,
+          "paper_train_accuracy_percent": 85.01,
+          "test_accuracy_percent": 83.79779650032404,
+          "paper_test_accuracy_percent": 84.71
+        },
+        {
+          "expert_id": "533",
+          "train_accuracy_percent": 89.02931367386344,
+          "paper_train_accuracy_percent": 87.43,
+          "test_accuracy_percent": 86.84381075826312,
+          "paper_test_accuracy_percent": 86.33
+        },
+        {
+          "expert_id": "534",
+          "train_accuracy_percent": 88.15165876777252,
+          "paper_train_accuracy_percent": 88.13,
+          "test_accuracy_percent": 85.54763447828904,
+          "paper_test_accuracy_percent": 85.68
+        },
+        {
+          "expert_id": "580",
+          "train_accuracy_percent": 79.14691943127963,
+          "paper_train_accuracy_percent": 81.73,
+          "test_accuracy_percent": 78.61309138042773,
+          "paper_test_accuracy_percent": 79.59
+        },
+        {
+          "expert_id": "581",
+          "train_accuracy_percent": 85.4835878532561,
+          "paper_train_accuracy_percent": 85.96,
+          "test_accuracy_percent": 84.8347375243033,
+          "paper_test_accuracy_percent": 84.64
+        },
+        {
+          "expert_id": "966",
+          "train_accuracy_percent": 89.2750570475689,
+          "paper_train_accuracy_percent": 87.05,
+          "test_accuracy_percent": 88.85288399222294,
+          "paper_test_accuracy_percent": 87.88
+        },
+        {
+          "expert_id": "745",
+          "train_accuracy_percent": 88.09899947340706,
+          "paper_train_accuracy_percent": 85.45,
+          "test_accuracy_percent": 86.84381075826312,
           "paper_test_accuracy_percent": 84.9
         }
       ]
