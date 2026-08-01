@@ -1,0 +1,284 @@
+{
+  "ar5iv_sha256": "d381ed2e443e7f2cdb48f51bf0e8cf8d07333bd4ae484fc6a0e4c0922bf67fdc",
+  "claims": {
+    "1": {
+      "aggregation_identity": "A_J = 3J/4",
+      "asymptotic_certificate": {
+        "conclusion": "A_J is Theta(J) and the label margin is Theta(1/J)",
+        "lower_bound_for_J_ge_1": "3J/4 <= 1+A_J",
+        "margin_identity": "(eta_1-eta_2)/(1+A_J) = (1/5)/(1+3J/4)",
+        "upper_bound_for_J_ge_1": "1+A_J <= 7J/4"
+      },
+      "family": "J experts, each with conditional accuracy 3/4",
+      "sweep": [
+        {
+          "aggregation": {
+            "denominator": 4,
+            "numerator": 3
+          },
+          "dummy_label_margin": {
+            "denominator": 35,
+            "numerator": 4
+          },
+          "experts": 1
+        },
+        {
+          "aggregation": {
+            "denominator": 2,
+            "numerator": 3
+          },
+          "dummy_label_margin": {
+            "denominator": 25,
+            "numerator": 2
+          },
+          "experts": 2
+        },
+        {
+          "aggregation": {
+            "denominator": 1,
+            "numerator": 3
+          },
+          "dummy_label_margin": {
+            "denominator": 20,
+            "numerator": 1
+          },
+          "experts": 4
+        },
+        {
+          "aggregation": {
+            "denominator": 1,
+            "numerator": 6
+          },
+          "dummy_label_margin": {
+            "denominator": 35,
+            "numerator": 1
+          },
+          "experts": 8
+        },
+        {
+          "aggregation": {
+            "denominator": 1,
+            "numerator": 12
+          },
+          "dummy_label_margin": {
+            "denominator": 65,
+            "numerator": 1
+          },
+          "experts": 16
+        },
+        {
+          "aggregation": {
+            "denominator": 1,
+            "numerator": 24
+          },
+          "dummy_label_margin": {
+            "denominator": 125,
+            "numerator": 1
+          },
+          "experts": 32
+        },
+        {
+          "aggregation": {
+            "denominator": 1,
+            "numerator": 48
+          },
+          "dummy_label_margin": {
+            "denominator": 245,
+            "numerator": 1
+          },
+          "experts": 64
+        }
+      ],
+      "verdict": "VERIFIED"
+    },
+    "2": {
+      "exhaustive_correlated_checks": 873,
+      "largest_complete_domain": "all Boolean correctness vectors and permutations through J=6",
+      "proof_certificate": {
+        "bound": "0 <= Pr(union_j M_j=Y) <= 1 for every J",
+        "disjoint": "E_j are pairwise disjoint by definition",
+        "partition": "E_j={first correct expert in permutation is sigma_j}",
+        "probability_identity": "sum_j Pr(E_j)=Pr(union_j M_j=Y)",
+        "union": "union_j E_j = {at least one expert is correct}",
+        "vanilla_contrast": "sum_j Acc_j <= J, with equality when all experts are always correct"
+      },
+      "verdict": "VERIFIED"
+    },
+    "3": {
+      "consistency_certificate": {
+        "argmax": "Both therefore have Argmax_y theta_y contained in Argmax_y eta_y",
+        "ce_population_minimizer": "q_y=eta_y/(1+V); normalizing q_1..q_K recovers eta exactly",
+        "ova_population_minimizer": "sigmoid(theta_y)=eta_y independently for every label y"
+      },
+      "continuity_certificate": {
+        "ce_specialization": "selected CE term = logsumexp(theta)-max_{correct j} theta_{K+j}",
+        "gluing": "The finitely many continuous regions agree on every shared boundary.",
+        "no_correct_case": "The second term is the constant zero on that observed outcome.",
+        "regions": "On each strict expert-score ordering, the selected component is continuous.",
+        "tie_boundary": "Symmetry makes selected loss components equal whenever tied expert inputs are equal."
+      },
+      "rational_instance": {
+        "ce_label_scores": [
+          {
+            "denominator": 19,
+            "numerator": 5
+          },
+          {
+            "denominator": 19,
+            "numerator": 3
+          },
+          {
+            "denominator": 19,
+            "numerator": 2
+          }
+        ],
+        "ce_recovered_eta": [
+          {
+            "denominator": 2,
+            "numerator": 1
+          },
+          {
+            "denominator": 10,
+            "numerator": 3
+          },
+          {
+            "denominator": 5,
+            "numerator": 1
+          }
+        ],
+        "eta": [
+          {
+            "denominator": 2,
+            "numerator": 1
+          },
+          {
+            "denominator": 10,
+            "numerator": 3
+          },
+          {
+            "denominator": 5,
+            "numerator": 1
+          }
+        ],
+        "ova_sigmoid_labels": [
+          {
+            "denominator": 2,
+            "numerator": 1
+          },
+          {
+            "denominator": 10,
+            "numerator": 3
+          },
+          {
+            "denominator": 5,
+            "numerator": 1
+          }
+        ],
+        "partition_masses": [
+          {
+            "denominator": 5,
+            "numerator": 3
+          },
+          {
+            "denominator": 4,
+            "numerator": 1
+          },
+          {
+            "denominator": 20,
+            "numerator": 1
+          }
+        ],
+        "union_probability": {
+          "denominator": 10,
+          "numerator": 9
+        }
+      },
+      "verdict": "VERIFIED"
+    },
+    "4": {
+      "absolute_contradiction": {
+        "denominator": 20,
+        "numerator": 1
+      },
+      "assumption_audit": {
+        "accuracies": [
+          {
+            "denominator": 4,
+            "numerator": 3
+          },
+          {
+            "denominator": 2,
+            "numerator": 1
+          }
+        ],
+        "ce_weights_strictly_positive": true,
+        "condition_1_all_subsets": [
+          {
+            "coverage_with_j_star": {
+              "denominator": 4,
+              "numerator": 3
+            },
+            "coverage_with_other": {
+              "denominator": 2,
+              "numerator": 1
+            },
+            "other_expert": 2,
+            "strict": true,
+            "subset": []
+          }
+        ],
+        "probabilities_sum_to_one": true,
+        "unique_optimal_expert": true
+      },
+      "ce_risk_minimizer_u_j_star": {
+        "denominator": 20,
+        "numerator": 7
+      },
+      "corrected_formula": "Acc_j_star/(1+V) = Acc_j_star*(1-V_tilde)",
+      "domain": "singleton X, binary Y with eta=(3/5,2/5); independent correctness indicators; a wrong expert predicts the other binary label",
+      "joint_correctness": {
+        "00": {
+          "denominator": 8,
+          "numerator": 1
+        },
+        "01": {
+          "denominator": 8,
+          "numerator": 1
+        },
+        "10": {
+          "denominator": 8,
+          "numerator": 3
+        },
+        "11": {
+          "denominator": 8,
+          "numerator": 3
+        }
+      },
+      "risk_partition_masses": [
+        {
+          "denominator": 4,
+          "numerator": 3
+        },
+        {
+          "denominator": 8,
+          "numerator": 1
+        }
+      ],
+      "scope": "This falsifies the printed CE accuracy-estimator equality in Theorem 6(A), not its ranking or OvA statements.",
+      "theorem_6a_printed_u_j_star": {
+        "denominator": 20,
+        "numerator": 7
+      },
+      "union_probability": {
+        "denominator": 8,
+        "numerator": 7
+      },
+      "v_tilde": {
+        "denominator": 15,
+        "numerator": 7
+      },
+      "verdict": "FALSIFIED"
+    }
+  },
+  "paper": "arXiv:2602.17144"
+}

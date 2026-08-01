@@ -1,0 +1,6 @@
+{
+  "command": "python independent_check.py .openresearch/artifacts/theory_results.json",
+  "exit_code": 0,
+  "stdout": "PASS: independent reconstruction gives CE u_j*=2/5, printed Theorem 6(A)=7/20, gap=1/20\n",
+  "stderr": ""
+}

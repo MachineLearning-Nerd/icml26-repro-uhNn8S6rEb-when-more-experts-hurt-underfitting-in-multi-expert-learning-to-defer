@@ -1,0 +1,6 @@
+{
+  "command": "python verify.py .openresearch/artifacts/negative_control_tampered.json",
+  "exit_code": 1,
+  "stdout": "FAIL: Claim 4 CE optimum\n",
+  "stderr": ""
+}

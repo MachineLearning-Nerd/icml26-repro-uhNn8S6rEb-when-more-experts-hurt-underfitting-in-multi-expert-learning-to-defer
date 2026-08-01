@@ -1,0 +1,22 @@
+{
+  "1": {
+    "statement": "Eq. 6 aggregation can scale linearly in J and flatten classifier-label margins",
+    "quantifier": "constructive family for every positive integer J",
+    "result": "VERIFIED"
+  },
+  "2": {
+    "statement": "Lemma 4 partition sum equals union coverage for any permutation and x",
+    "quantifier": "universal probability identity",
+    "result": "VERIFIED"
+  },
+  "3": {
+    "statement": "Theorem 2 continuity and Lemma 5 CE/OvA classifier consistency",
+    "quantifier": "universal under the stated continuity/symmetry assumptions",
+    "result": "VERIFIED"
+  },
+  "4": {
+    "statement": "Theorem 6(A) CE score equals Acc_j* times V_tilde under Condition 1",
+    "quantifier": "any x and minimizer satisfying Condition 1",
+    "result": "FALSIFIED"
+  }
+}
