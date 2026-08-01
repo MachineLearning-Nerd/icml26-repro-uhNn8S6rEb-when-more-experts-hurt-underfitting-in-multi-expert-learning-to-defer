@@ -49,13 +49,24 @@ def load_rows(artifacts: Path) -> list[dict]:
                 )
                 assert [epoch["epoch"] for epoch in run["history"]] == list(range(1, 101))
                 assert all(epoch["samples"] == 1543 for epoch in run["history"])
+                assert all(
+                    math.isfinite(epoch[key])
+                    for epoch in run["history"]
+                    for key in ["train_loss", "classifier_accuracy_percent", "system_error_percent", "coverage_percent"]
+                )
                 accuracy = run["history"][-1]["classifier_accuracy_percent"]
                 assert math.isfinite(accuracy)
+                assert run["runtime_seconds"] > 0
+                assert environment["fixed_command"] == "uv run --frozen python run.py"
+                assert environment["seed"] == seed
+                assert environment["estimated_cores"] == 8
                 assert environment["selected_flavor"] == "cpu-upgrade"
-                assert environment["effective_cpu_quota"] > 0
+                assert environment["container_image"] == "ghcr.io/astral-sh/uv:python3.12-bookworm-slim"
+                assert environment["effective_cpu_quota"] == 8
                 assert environment["cuda_available"] is False
                 assert environment["cuda_device_count"] == 0
                 assert environment["stage"] == "micebone-training-shard"
+                assert environment["runtime_seconds"] >= run["runtime_seconds"]
                 assert verifier["exit_code"] == 0
                 assert negative_output["exit_code"] != 0
                 assert negative_path.is_file()

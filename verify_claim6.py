@@ -102,8 +102,14 @@ def main() -> None:
         )
         assert [epoch["epoch"] for epoch in run["history"]] == list(range(1, 101))
         assert all(epoch["samples"] == 1543 for epoch in run["history"])
+        assert all(
+            math.isfinite(epoch[key])
+            for epoch in run["history"]
+            for key in ["train_loss", "classifier_accuracy_percent", "system_error_percent", "coverage_percent"]
+        )
         value = run["history"][-1]["classifier_accuracy_percent"]
         assert math.isfinite(value)
+        assert run["runtime_seconds"] > 0
         row = reported[experts, method, seed]
         assert row["raw_file"] == name
         assert row["raw_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
@@ -114,12 +120,17 @@ def main() -> None:
         assert row["environment_file"] == environment_path.name
         assert row["environment_sha256"] == hashlib.sha256(environment_path.read_bytes()).hexdigest()
         assert row["git_sha"] == environment["git_sha"]
+        assert environment["fixed_command"] == "uv run --frozen python run.py"
+        assert environment["seed"] == seed
+        assert environment["estimated_cores"] == 8
         assert row["selected_flavor"] == environment["selected_flavor"] == "cpu-upgrade"
+        assert environment["container_image"] == "ghcr.io/astral-sh/uv:python3.12-bookworm-slim"
         assert row["actual_logical_cpus"] == environment["actual_logical_cpus"]
         assert row["actual_cpu_affinity"] == environment["actual_cpu_affinity"]
-        assert row["effective_cpu_quota"] == environment["effective_cpu_quota"] > 0
+        assert row["effective_cpu_quota"] == environment["effective_cpu_quota"] == 8
         assert row["cuda_available"] is environment["cuda_available"] is False
         assert close(row["environment_runtime_seconds"], environment["runtime_seconds"])
+        assert environment["runtime_seconds"] >= run["runtime_seconds"]
         assert row["shard_verifier_file"] == verifier_path.name
         assert row["shard_verifier_sha256"] == hashlib.sha256(verifier_path.read_bytes()).hexdigest()
         assert row["shard_verifier_exit"] == verifier["exit_code"] == 0
