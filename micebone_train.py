@@ -122,6 +122,7 @@ def evaluate(model, loader, experts_count: int) -> dict:
     model.eval()
     with torch.no_grad():
         for pixels, targets, experts in loader:
+            pixels = pixels.contiguous(memory_format=torch.channels_last)
             logits = model(pixels)
             classifier = logits[:, : len(LABELS)].argmax(dim=1)
             decision = logits.argmax(dim=1)
@@ -166,7 +167,9 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
     workers = min(4, max(1, effective_cpu_count() // 2))
     train_loader = DataLoader(train, batch_size=128, shuffle=True, num_workers=workers, persistent_workers=True, generator=generator)
     test_loader = DataLoader(test, batch_size=128, shuffle=False, num_workers=workers, persistent_workers=True)
-    model = models.resnet18(weights=None, num_classes=len(LABELS) + experts_count)
+    model = models.resnet18(weights=None, num_classes=len(LABELS) + experts_count).to(
+        memory_format=torch.channels_last
+    )
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=5e-4)
     history = []
     started = time.monotonic()
@@ -175,6 +178,7 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
         total_loss = 0.0
         samples = 0
         for pixels, targets_batch, experts_batch in train_loader:
+            pixels = pixels.contiguous(memory_format=torch.channels_last)
             optimizer.zero_grad(set_to_none=True)
             logits = model(pixels)
             loss = l2d_loss(logits, targets_batch, experts_batch[:, :experts_count], method)
@@ -222,6 +226,7 @@ def run_micebone_training(root: Path, config: dict) -> dict:
             "learning_rate": 0.0003,
             "weight_decay": 0.0005,
             "batch_size": 128,
+            "cpu_memory_format": training.get("cpu_memory_format", "contiguous"),
             "train_images": 5697,
             "test_images": 1543,
         },
