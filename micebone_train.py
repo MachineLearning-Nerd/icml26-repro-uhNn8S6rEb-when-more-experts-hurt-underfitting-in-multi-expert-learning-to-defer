@@ -13,13 +13,26 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import models, transforms
 
-from micebone import image_fold, majority
+from micebone import image_fold, majority_with_priority
 
 
 LABELS = ["g", "nr", "ug"]
 EXPERT_IDS = ["047", "290", "533", "534", "580", "581", "966", "745"]
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
+TARGET_PRIORITY = ("g", "ug", "nr")
+
+
+def effective_cpu_count() -> int:
+    counts = [os.cpu_count() or 1]
+    if hasattr(os, "sched_getaffinity"):
+        counts.append(len(os.sched_getaffinity(0)))
+    cpu_max = Path("/sys/fs/cgroup/cpu.max")
+    if cpu_max.exists():
+        quota, period = cpu_max.read_text().split()
+        if quota != "max":
+            counts.append(max(1, int(quota) // int(period)))
+    return min(counts)
 
 
 class MiceBoneDataset(Dataset):
@@ -61,7 +74,7 @@ def prepare_data(root: Path):
         raise RuntimeError(f"complete expert IDs changed: {sorted(complete)}")
     label_to_index = {label: index for index, label in enumerate(LABELS)}
     paths = sorted(votes)
-    targets = {path: label_to_index[majority(votes[path])[0]] for path in paths}
+    targets = {path: label_to_index[majority_with_priority(votes[path], TARGET_PRIORITY)] for path in paths}
     experts = {
         path: [label_to_index[complete[expert_id][path]] for expert_id in EXPERT_IDS]
         for path in paths
@@ -147,8 +160,9 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
     train = MiceBoneDataset(data_root, train_paths, targets, experts, train_transform)
     test = MiceBoneDataset(data_root, test_paths, targets, experts, test_transform)
     generator = torch.Generator().manual_seed(seed)
-    train_loader = DataLoader(train, batch_size=128, shuffle=True, num_workers=8, persistent_workers=True, generator=generator)
-    test_loader = DataLoader(test, batch_size=128, shuffle=False, num_workers=8, persistent_workers=True)
+    workers = min(4, max(1, effective_cpu_count() // 2))
+    train_loader = DataLoader(train, batch_size=128, shuffle=True, num_workers=workers, persistent_workers=True, generator=generator)
+    test_loader = DataLoader(test, batch_size=128, shuffle=False, num_workers=workers, persistent_workers=True)
     model = models.resnet18(weights=None, num_classes=len(LABELS) + experts_count)
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=5e-4)
     history = []
@@ -165,7 +179,9 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
             optimizer.step()
             total_loss += loss.item() * targets_batch.numel()
             samples += targets_batch.numel()
-        history.append({"epoch": epoch + 1, "train_loss": total_loss / samples, **evaluate(model, test_loader, experts_count)})
+        epoch_result = {"epoch": epoch + 1, "train_loss": total_loss / samples, **evaluate(model, test_loader, experts_count)}
+        history.append(epoch_result)
+        print(json.dumps({"method": method, "experts": experts_count, "seed": seed, **epoch_result}), flush=True)
     return {
         "method": method,
         "experts": experts_count,
@@ -177,7 +193,7 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
 
 
 def calibrate_micebone(root: Path, config: dict) -> dict:
-    torch.set_num_threads(min(32, os.cpu_count() or 1))
+    torch.set_num_threads(effective_cpu_count())
     data = prepare_data(root)
     training = config["micebone_training"]
     runs = [

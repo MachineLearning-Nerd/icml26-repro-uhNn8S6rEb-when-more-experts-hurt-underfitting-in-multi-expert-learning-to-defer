@@ -10,7 +10,7 @@ from pathlib import Path
 import torch
 
 from micebone import audit_micebone, inspect_annotations, resolve_targets
-from micebone_train import calibrate_micebone
+from micebone_train import calibrate_micebone, effective_cpu_count
 from theory import evaluate_theory
 
 
@@ -100,6 +100,7 @@ def main() -> None:
         "container_image": config["container_image"],
         "actual_logical_cpus": os.cpu_count(),
         "actual_cpu_affinity": len(os.sched_getaffinity(0)),
+        "effective_cpu_quota": effective_cpu_count(),
         "cuda_available": torch.cuda.is_available(),
         "cuda_device_count": torch.cuda.device_count(),
         "runtime_seconds": elapsed,
