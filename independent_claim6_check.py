@@ -36,6 +36,15 @@ def main() -> None:
     assert best_target["vote_pool"] == "complete_annotators"
     assert best_target["priority"] == ["g", "ug", "nr"]
     assert best_target["exact_rounded_matches_out_of_16"] == 14
+    accounting = json.loads((result_path.parent / "job_accounting.json").read_text())
+    assert len(accounting["jobs"]) == 48
+    assert len({job["job_id"] for job in accounting["jobs"]}) == 48
+    assert all(job["status"] == "COMPLETED" and job["flavor"] == "cpu-upgrade" for job in accounting["jobs"])
+    independent_billed_minutes = sum(math.ceil(job["running_seconds"] / 60) for job in accounting["jobs"])
+    independent_cost = independent_billed_minutes * 0.0005
+    assert accounting["total_billed_minutes"] == independent_billed_minutes
+    assert near(accounting["total_cost_usd"], independent_cost)
+    assert near(evidence["job_accounting"]["total_cost_usd"], independent_cost)
     observed = {}
     for path in result_path.parent.glob("micebone_training_j*_seed*.json"):
         match = NAME.fullmatch(path.name)
@@ -104,6 +113,10 @@ def main() -> None:
             {
                 "independent_verdict": verdict,
                 "dataset_audit": True,
+                "job_accounting": {
+                    "billed_minutes": independent_billed_minutes,
+                    "cost_usd": independent_cost,
+                },
                 "exact_grid_cells": len(observed),
                 "degradation": degradation,
                 "stability": stability,

@@ -50,6 +50,34 @@ def main() -> None:
     assert close(dataset_audit["table3_max_error_percentage_points"], best["maximum_absolute_error_percentage_points"])
     for path in [inventory_path, annotations_path, targets_path]:
         assert dataset_audit["files"][path.name] == hashlib.sha256(path.read_bytes()).hexdigest()
+    accounting_summary = result["job_accounting"]
+    accounting_path = artifacts / accounting_summary["raw_file"]
+    accounting = json.loads(accounting_path.read_text())
+    assert accounting_summary["raw_sha256"] == hashlib.sha256(accounting_path.read_bytes()).hexdigest()
+    assert accounting["pricing_source"] == accounting_summary["pricing_source"] == "https://huggingface.co/docs/hub/jobs-pricing"
+    assert accounting["cpu_upgrade_hourly_usd"] == accounting_summary["cpu_upgrade_hourly_usd"] == 0.03
+    assert accounting["cpu_upgrade_per_minute_usd"] == 0.0005
+    expected_jobs = {shard["job_id"]: shard for shard in manifest["shards"]}
+    observed_jobs = {job["job_id"]: job for job in accounting["jobs"]}
+    assert set(observed_jobs) == set(expected_jobs)
+    for job_id, job in observed_jobs.items():
+        shard = expected_jobs[job_id]
+        assert job["run_id"] == shard["run_id"]
+        assert (job["j"], job["method"], job["seed"]) == (shard["j"], shard["method"], shard["seed"])
+        assert job["status"] == "COMPLETED"
+        assert job["flavor"] == "cpu-upgrade"
+        assert job["running_seconds"] > 0
+        assert job["billed_minutes"] == math.ceil(job["running_seconds"] / 60)
+        assert close(job["cost_usd"], job["billed_minutes"] * 0.0005)
+    running_seconds = sum(job["running_seconds"] for job in observed_jobs.values())
+    billed_minutes = sum(job["billed_minutes"] for job in observed_jobs.values())
+    cost_usd = sum(job["cost_usd"] for job in observed_jobs.values())
+    assert accounting["job_count"] == accounting_summary["job_count"] == 48
+    assert accounting["total_running_seconds"] == accounting_summary["total_running_seconds"] == running_seconds
+    assert accounting["total_billed_minutes"] == accounting_summary["total_billed_minutes"] == billed_minutes
+    assert close(accounting["total_cost_usd"], accounting_summary["total_cost_usd"])
+    assert close(accounting["total_cost_usd"], cost_usd)
+    assert close(accounting_summary["total_running_hours"], running_seconds / 3600)
     expected_cells = {
         (experts, method, seed)
         for experts in EXPERT_COUNTS

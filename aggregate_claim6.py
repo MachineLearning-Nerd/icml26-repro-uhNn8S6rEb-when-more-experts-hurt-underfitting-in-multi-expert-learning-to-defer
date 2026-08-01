@@ -67,6 +67,46 @@ def load_dataset_audit(artifacts: Path) -> dict:
     }
 
 
+def load_job_accounting(artifacts: Path, shard_manifest: dict) -> dict:
+    path = artifacts / "job_accounting.json"
+    accounting = json.loads(path.read_text())
+    assert accounting["pricing_source"] == "https://huggingface.co/docs/hub/jobs-pricing"
+    assert accounting["cpu_upgrade_hourly_usd"] == 0.03
+    assert accounting["cpu_upgrade_per_minute_usd"] == 0.0005
+    assert accounting["billing_unit"] == "minute"
+    expected = {shard["job_id"]: shard for shard in shard_manifest["shards"]}
+    observed = {job["job_id"]: job for job in accounting["jobs"]}
+    assert set(observed) == set(expected)
+    for job_id, job in observed.items():
+        shard = expected[job_id]
+        assert job["run_id"] == shard["run_id"]
+        assert (job["j"], job["method"], job["seed"]) == (shard["j"], shard["method"], shard["seed"])
+        assert job["status"] == "COMPLETED"
+        assert job["flavor"] == "cpu-upgrade"
+        assert job["running_seconds"] > 0
+        assert job["billed_minutes"] == math.ceil(job["running_seconds"] / 60)
+        assert math.isclose(job["cost_usd"], job["billed_minutes"] * 0.0005)
+    total_running_seconds = sum(job["running_seconds"] for job in observed.values())
+    total_billed_minutes = sum(job["billed_minutes"] for job in observed.values())
+    total_cost_usd = sum(job["cost_usd"] for job in observed.values())
+    assert accounting["job_count"] == 48
+    assert accounting["total_running_seconds"] == total_running_seconds
+    assert accounting["total_billed_minutes"] == total_billed_minutes
+    assert math.isclose(accounting["total_cost_usd"], total_cost_usd)
+    return {
+        "job_count": 48,
+        "pricing_source": accounting["pricing_source"],
+        "pricing_retrieved_at": accounting["pricing_retrieved_at"],
+        "cpu_upgrade_hourly_usd": accounting["cpu_upgrade_hourly_usd"],
+        "total_running_seconds": total_running_seconds,
+        "total_running_hours": total_running_seconds / 3600,
+        "total_billed_minutes": total_billed_minutes,
+        "total_cost_usd": total_cost_usd,
+        "raw_file": path.name,
+        "raw_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+    }
+
+
 def load_rows(artifacts: Path) -> list[dict]:
     rows = []
     for experts in EXPERT_COUNTS:
@@ -180,6 +220,7 @@ def aggregate_claim6(artifacts: Path) -> dict:
         for seed in SEEDS
     }
     dataset_audit = load_dataset_audit(artifacts)
+    job_accounting = load_job_accounting(artifacts, manifest)
     rows = load_rows(artifacts)
     values = {
         (row["method"], row["experts"], row["seed"]): row["classifier_accuracy_percent"]
@@ -253,6 +294,7 @@ def aggregate_claim6(artifacts: Path) -> dict:
         "seeds": SEEDS,
         "grid_size": len(rows),
         "dataset_audit": dataset_audit,
+        "job_accounting": job_accounting,
         "shard_manifest_file": "shard_manifest.json",
         "shard_manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
         "rows": rows,
@@ -294,6 +336,16 @@ def render_claim6_report(result: dict) -> str:
         f"max {result['dataset_audit']['table3_max_error_percentage_points']:.6f} pp).",
         "- Downloadable audits: [inventory](micebone_inventory.json), [annotations](micebone_annotations.json), "
         "[target reconstruction](micebone_targets.json).",
+        "",
+        "## Remote compute and cost",
+        "",
+        f"The {result['job_accounting']['job_count']} accepted `cpu-upgrade` jobs used "
+        f"{result['job_accounting']['total_running_hours']:.6f} aggregate Hub-reported running hours "
+        f"({result['job_accounting']['total_billed_minutes']} billed minutes). At the documented "
+        f"${result['job_accounting']['cpu_upgrade_hourly_usd']:.2f}/hour rate, the computed cost is "
+        f"${result['job_accounting']['total_cost_usd']:.6f}. See "
+        f"[job_accounting.json]({result['job_accounting']['raw_file']}) and the "
+        f"[official pricing source]({result['job_accounting']['pricing_source']}).",
         "",
         "## Seed means (%)",
         "",

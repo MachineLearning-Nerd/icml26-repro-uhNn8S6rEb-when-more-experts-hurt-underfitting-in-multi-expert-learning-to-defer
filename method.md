@@ -28,3 +28,14 @@ normalization, initialization, or seeds. These clean-room choices and the two
 residual Table 3 discrepancies are retained as limitations. This MiceBone
 panel does not by itself establish the caption's statement across every other
 dataset.
+
+## Compute accounting
+
+The official Hugging Face Jobs pricing page, retrieved 2026-08-01, lists
+`cpu-upgrade` as 8 vCPU and 32 GB at `$0.03/hour`, billed by the minute while a
+job is Starting or Running:
+<https://huggingface.co/docs/hub/jobs-pricing>. Final campaign cost is computed
+from each terminal Job's Hub-reported running duration, rounded up separately
+to whole billed minutes, at `$0.0005/minute`. Python runtime is reported too,
+but is not substituted for the billing clock because it excludes container
+setup, repository checkout, and environment installation.
