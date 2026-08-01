@@ -8,6 +8,13 @@
   "expected_cells": 48,
   "initial_batch_size": 8,
   "maximum_parallel_jobs_per_paper": 4,
+  "campaign_stop": {
+    "requested_at_utc": "2026-08-01T09:23:46+00:00",
+    "reason": "User requested that this paper stop because the faithful training campaign would take too long.",
+    "active_jobs_after_stop": 0,
+    "publication_performed": false,
+    "scientific_verdict_from_partial_runs": null
+  },
   "batches": [
     {
       "batch": 1,
@@ -130,6 +137,16 @@
           "RUNNING": 4
         },
         "flavor": "cpu-upgrade"
+      },
+      "cancellation": {
+        "requested_at_utc": "2026-08-01T09:23:46+00:00",
+        "reason": "User stopped the paper campaign because the faithful training would take too long.",
+        "matched_jobs": 4,
+        "status_counts": {
+          "CANCELED": 4
+        },
+        "completed_artifact_bundles": 0,
+        "scientific_verdict": null
       },
       "cells": [
         {
