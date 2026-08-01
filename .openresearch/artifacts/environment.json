@@ -1,6 +1,6 @@
 {
   "fixed_command": "uv run --frozen python run.py",
-  "git_sha": "9fabb3ca25651247f2b5dd5a94acf486b0b816b5",
+  "git_sha": "8c31fee9ee09a569b7c1f57dc96069a5271a4ff9",
   "seed": 260217144,
   "estimated_cores": 2,
   "selected_flavor": "cpu-upgrade",
@@ -9,8 +9,8 @@
   "actual_cpu_affinity": 64,
   "cuda_available": false,
   "cuda_device_count": 0,
-  "runtime_seconds": 0.436529521997727,
+  "runtime_seconds": 0.7404666319489479,
   "python": "3.12.12 (main, Feb  3 2026, 03:12:00) [GCC 12.2.0]",
-  "platform": "Linux-6.12.94-123.192.amzn2023.x86_64-x86_64-with-glibc2.36",
-  "stage": "theory-evidence-export"
+  "platform": "Linux-6.12.90-120.164.amzn2023.x86_64-x86_64-with-glibc2.36",
+  "stage": "source-table-audit"
 }

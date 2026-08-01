@@ -1,6 +1,32 @@
 {
-  "command": "python verify.py .openresearch/artifacts/negative_control_tampered.json",
-  "exit_code": 1,
-  "stdout": "FAIL: Claim 4 CE optimum\n",
-  "stderr": ""
+  "claim_1": {
+    "command": "python verify.py .openresearch/artifacts/negative_control_claim_1.json",
+    "exit_code": 1,
+    "stdout": "FAIL: Claim 1 aggregation\n",
+    "stderr": ""
+  },
+  "claim_2": {
+    "command": "python verify.py .openresearch/artifacts/negative_control_claim_2.json",
+    "exit_code": 1,
+    "stdout": "FAIL: Claim 2 exhaustive count\n",
+    "stderr": ""
+  },
+  "claim_3": {
+    "command": "python verify.py .openresearch/artifacts/negative_control_claim_3.json",
+    "exit_code": 1,
+    "stdout": "FAIL: Claim 3 CE/OvA recovery\n",
+    "stderr": ""
+  },
+  "claim_4": {
+    "command": "python verify.py .openresearch/artifacts/negative_control_claim_4.json",
+    "exit_code": 1,
+    "stdout": "FAIL: Claim 4 CE optimum\n",
+    "stderr": ""
+  },
+  "claim_5": {
+    "command": "python verify.py .openresearch/artifacts/negative_control_claim_5.json",
+    "exit_code": 1,
+    "stdout": "FAIL: Claim 5 PiCCE Table 2 cell\n",
+    "stderr": ""
+  }
 }

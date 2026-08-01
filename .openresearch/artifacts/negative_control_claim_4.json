@@ -231,8 +231,8 @@
         "unique_optimal_expert": true
       },
       "ce_risk_minimizer_u_j_star": {
-        "denominator": 5,
-        "numerator": 2
+        "denominator": 20,
+        "numerator": 7
       },
       "corrected_formula": "Acc_j_star/(1+V) = Acc_j_star*(1-V_tilde)",
       "domain": "singleton X, binary Y with eta=(3/5,2/5); independent correctness indicators; a wrong expert predicts the other binary label",

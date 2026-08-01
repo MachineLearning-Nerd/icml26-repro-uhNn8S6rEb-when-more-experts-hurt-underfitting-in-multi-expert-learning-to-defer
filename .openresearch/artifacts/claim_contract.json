@@ -18,5 +18,10 @@
     "statement": "Theorem 6(A) CE score equals Acc_j* times V_tilde under Condition 1",
     "quantifier": "any x and minimizer satisfying Condition 1",
     "result": "FALSIFIED"
+  },
+  "5": {
+    "statement": "PiCCE has improved system error and higher coverage across expert counts on both real-world datasets",
+    "quantifier": "every reported dataset, method family, and expert count",
+    "result": "FALSIFIED"
   }
 }

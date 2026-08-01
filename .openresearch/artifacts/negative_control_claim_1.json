@@ -13,8 +13,8 @@
       "sweep": [
         {
           "aggregation": {
-            "denominator": 4,
-            "numerator": 3
+            "denominator": 1,
+            "numerator": 0
           },
           "dummy_label_margin": {
             "denominator": 35,

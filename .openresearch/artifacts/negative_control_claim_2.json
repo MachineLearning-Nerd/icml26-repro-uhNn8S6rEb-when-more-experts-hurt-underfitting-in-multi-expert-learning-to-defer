@@ -92,7 +92,7 @@
       "verdict": "VERIFIED"
     },
     "2": {
-      "exhaustive_correlated_checks": 873,
+      "exhaustive_correlated_checks": 872,
       "largest_complete_domain": "all Boolean correctness vectors and permutations through J=6",
       "proof_certificate": {
         "bound": "0 <= Pr(union_j M_j=Y) <= 1 for every J",
