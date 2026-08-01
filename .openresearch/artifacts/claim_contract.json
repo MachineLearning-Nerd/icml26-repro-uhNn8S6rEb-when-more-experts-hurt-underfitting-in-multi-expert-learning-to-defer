@@ -23,5 +23,10 @@
     "statement": "PiCCE has improved system error and higher coverage across expert counts on both real-world datasets",
     "quantifier": "every reported dataset, method family, and expert count",
     "result": "FALSIFIED"
+  },
+  "6": {
+    "statement": "On MiceBone, vanilla classifier accuracy drops as J increases while PiCCE remains stable",
+    "quantifier": "CE and OvA families at J in {2,4,6,8}, averaged over three trials",
+    "result": "BLOCKED"
   }
 }

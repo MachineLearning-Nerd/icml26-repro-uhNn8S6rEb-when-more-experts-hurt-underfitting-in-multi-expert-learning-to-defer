@@ -1,0 +1,10 @@
+{
+  "source_scope": "Figure 2 MiceBone panel and Appendix D.2",
+  "primary_metric": "final-epoch test classifier accuracy percent",
+  "aggregation": "arithmetic mean across the three preregistered seeds",
+  "vanilla_degradation": "For CE and OvA, every adjacent seed-mean accuracy decreases from J=2 to 4 to 6 to 8, and the J=2 minus J=8 drop is at least 2 percentage points.",
+  "picce_stability": "For PiCCE-CE and PiCCE-OvA, the range of seed-mean accuracies across J is at most 2 percentage points.",
+  "endpoint_comparison": "At J=8, each PiCCE seed-mean accuracy is greater than its paired vanilla formulation.",
+  "uncertainty": "Report paired seed differences and two-sided 95% t intervals; intervals are descriptive because the source claim is stated for three-trial means.",
+  "verdict_rule": "VERIFIED only if all degradation, stability, and endpoint comparisons pass; otherwise report the failed clauses without re-tuning thresholds."
+}
