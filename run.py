@@ -7,6 +7,8 @@ import sys
 import time
 from pathlib import Path
 
+import torch
+
 from theory import evaluate_theory
 
 
@@ -71,6 +73,9 @@ def main() -> None:
         "selected_flavor": config["selected_flavor"],
         "container_image": config["container_image"],
         "actual_logical_cpus": os.cpu_count(),
+        "actual_cpu_affinity": len(os.sched_getaffinity(0)),
+        "cuda_available": torch.cuda.is_available(),
+        "cuda_device_count": torch.cuda.device_count(),
         "runtime_seconds": elapsed,
         "python": sys.version,
         "platform": platform.platform(),
@@ -95,6 +100,10 @@ def main() -> None:
         "This baseline does not address Claims 5–6 or claim dataset-level empirical performance.\n"
     )
     print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exit": negative["exit_code"], "runtime_seconds": elapsed}, indent=2))
+    bundle = {path.name: path.read_text() for path in sorted(ARTIFACTS.iterdir())}
+    print("ORX_ARTIFACT_BUNDLE_BEGIN")
+    print(json.dumps(bundle, sort_keys=True))
+    print("ORX_ARTIFACT_BUNDLE_END")
 
 
 if __name__ == "__main__":
