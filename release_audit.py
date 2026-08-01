@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 ALLOWED_VERDICTS = {"VERIFIED", "FALSIFIED", "BLOCKED"}
+ALLOWED_CONFIDENCE = {"HIGH", "MEDIUM", "LOW"}
 REQUIRED_EVIDENCE_FIELDS = ["code", "raw", "checker", "control", "environment"]
 TEXT_SUFFIXES = {"", ".css", ".html", ".js", ".json", ".md", ".py", ".toml", ".txt", ".lock"}
 SECRET_PATTERNS = [
@@ -80,6 +81,7 @@ def main() -> None:
         assert row["exact_claim_tested"] is True
         assert row["limitations_inline"] is True
         assert row["source_quantifiers_inline"] is True
+        assert row["judge_criticism_answered"] is True
         page = candidate / row["canonical_page"]
         direct_links = linked_paths(page, candidate)
         for field in REQUIRED_EVIDENCE_FIELDS:
@@ -87,6 +89,37 @@ def main() -> None:
             for relative in row[field]:
                 assert relative in candidate_files
                 assert relative in direct_links
+
+    release_report = json.loads((candidate / "evidence" / "release" / "release_report.json").read_text())
+    assert release_report["previous_live_judged_score"] == "5/12"
+    assert release_report["current_hf_head"] == revision
+    assert release_report["current_judge_head"] == revision
+    assert release_report["conservative_projected_score_range"]
+    assert release_report["best_supported_possible_new_score"]
+    assert release_report["best_supported_possible_new_score_is_forecast"] is True
+    assert release_report["publication_action"] == "update existing Space DineshAI/uhNn8S6rEb via text-only API"
+    claim_rows = release_report["claims"]
+    assert [row["claim"] for row in claim_rows] == [1, 2, 3, 4, 5, 6]
+    for row in claim_rows:
+        assert {"current_points", "possible_points", "confidence", "evidence_status", "basis_and_remaining_risk"} <= set(row)
+        assert row["confidence"] in ALLOWED_CONFIDENCE
+        assert row["evidence_status"] in ALLOWED_VERDICTS
+        if row["confidence"] == "LOW":
+            assert len(row["verification_routes"]) >= 3
+            assert len(row["falsification_routes"]) >= 1
+
+    red_team = json.loads((candidate / "evidence" / "release" / "red_team.json").read_text())
+    assert red_team["scope"] == "downloaded candidate only"
+    assert red_team["canonical_entrypoint"] == logbook["root"]["file"]
+    assert len(red_team["rounds"]) >= 2
+    for review_round in red_team["rounds"]:
+        assert review_round["files_opened"]
+        assert all(relative in candidate_files for relative in review_round["files_opened"])
+        assert [review["claim"] for review in review_round["claim_reviews"]] == [1, 2, 3, 4, 5, 6]
+    final_review = red_team["rounds"][-1]
+    assert final_review["missing_or_unverifiable"] == []
+    assert all(review["current_verifier_located"] is True for review in final_review["claim_reviews"])
+    assert all(review["conclusion"] in ALLOWED_VERDICTS for review in final_review["claim_reviews"])
 
     root_file = candidate / logbook["root"]["file"]
     root_text = root_file.read_text()
@@ -132,6 +165,8 @@ def main() -> None:
                 "navigation_nodes": len(nodes),
                 "current_verification_first": True,
                 "visibility_rows_complete": len(rows),
+                "release_forecast_rows": len(claim_rows),
+                "red_team_rounds": len(red_team["rounds"]),
                 "text_upload_paths": len(changed),
                 "upload_manifest_verified": True,
                 "text_files_scanned_for_secrets": scanned,
