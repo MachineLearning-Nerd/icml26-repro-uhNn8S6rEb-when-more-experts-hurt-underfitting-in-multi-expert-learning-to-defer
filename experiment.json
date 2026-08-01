@@ -1,0 +1,7 @@
+{
+  "stage": "theory-baseline",
+  "seed": 260217144,
+  "estimated_cores": 2,
+  "selected_flavor": "cpu-upgrade",
+  "fixed_command": "uv run --frozen python run.py"
+}

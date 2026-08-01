@@ -1,0 +1,15 @@
+[project]
+name = "when-more-experts-hurt-reproduction"
+version = "0.1.0"
+description = "Clean-room theorem and benchmark reproduction for arXiv:2602.17144"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "datasets>=4.0,<5",
+  "numpy>=2.0,<3",
+  "pillow>=11,<13",
+  "torch>=2.7,<3",
+  "torchvision>=0.22,<1",
+]
+
+[tool.uv]
+package = false
