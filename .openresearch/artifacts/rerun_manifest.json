@@ -115,6 +115,64 @@
           "job_id": "6a6dacdba00abefd4b28b1a6"
         }
       ]
+    },
+    {
+      "batch": 2,
+      "design": "One paired J=2, seed=260217144 group covering all four methods under the four-job concurrency cap.",
+      "submission_window_utc": {
+        "first_created": "2026-08-01T08:51:41.130000+00:00",
+        "last_created": "2026-08-01T08:52:14.590000+00:00"
+      },
+      "initial_verification": {
+        "checked_at_utc": "2026-08-01T08:52:33+00:00",
+        "matched_jobs": 4,
+        "status_counts": {
+          "RUNNING": 4
+        },
+        "flavor": "cpu-upgrade"
+      },
+      "cells": [
+        {
+          "j": 2,
+          "method": "ce",
+          "seed": 260217144,
+          "experiment_id": "ee35ef1d-02cf-4dd6-95b3-183fefc987fc",
+          "superseded_run_id": "ae3691c2-7d65-4578-b6eb-67115700f7e3",
+          "superseded_job_id": "6a6dacb16b79c09949c1e317",
+          "run_id": "a7023e88-3661-4fdb-ad6c-43be23b869af",
+          "job_id": "6a6db3ba6b79c09949c1e3b3"
+        },
+        {
+          "j": 2,
+          "method": "picce_ce",
+          "seed": 260217144,
+          "experiment_id": "34a5571f-9868-415a-bf48-5c446d8e6672",
+          "superseded_run_id": "250bcb25-6b4e-4b68-8cfa-813aa6fd3aa3",
+          "superseded_job_id": "6a6dacd36b79c09949c1e31b",
+          "run_id": "38af47b7-142e-4bf1-8b2f-833d64f4902b",
+          "job_id": "6a6db3bc6b79c09949c1e3b5"
+        },
+        {
+          "j": 2,
+          "method": "ova",
+          "seed": 260217144,
+          "experiment_id": "dda2471c-8bf1-407d-a3f2-e884a65bbb28",
+          "superseded_run_id": "532c660b-a894-4ee5-8287-e8fd39160a06",
+          "superseded_job_id": "6a6dacd9a00abefd4b28b1a4",
+          "run_id": "9502d66b-6800-4fca-85d6-264292d79729",
+          "job_id": "6a6db3bea00abefd4b28b299"
+        },
+        {
+          "j": 2,
+          "method": "picce_ova",
+          "seed": 260217144,
+          "experiment_id": "df6d4caf-ff81-40c8-b3b0-0a6a4df89e18",
+          "superseded_run_id": "9f56bbac-b4ba-4db2-b09b-6a1885ec9faf",
+          "superseded_job_id": "6a6d95d6a00abefd4b28af62",
+          "run_id": "883a6161-ac5b-4ba6-a46d-c399869fad65",
+          "job_id": "6a6db39d6b79c09949c1e3af"
+        }
+      ]
     }
   ]
 }
