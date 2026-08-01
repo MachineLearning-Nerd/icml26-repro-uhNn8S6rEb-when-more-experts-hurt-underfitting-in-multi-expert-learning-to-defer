@@ -16,7 +16,7 @@ from torchvision import models, transforms
 from micebone import image_fold, majority_with_priority
 
 
-LABELS = ["g", "nr", "ug"]
+LABELS = ["g", "ug", "nr"]
 EXPERT_IDS = ["047", "290", "533", "534", "580", "581", "966", "745"]
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
@@ -60,21 +60,24 @@ def prepare_data(root: Path):
         zipped.extractall(data_root)
         records = json.loads(zipped.read("MiceBone/annotations.json"))
 
-    votes = {}
+    complete_votes = {}
     complete = {}
     for record in records:
         annotations = record["annotations"]
         if len({row["image_path"] for row in annotations}) == 7240:
             expert_id = "".join(character for character in str(record["name"]) if character.isdigit()).zfill(3)
             complete[expert_id] = {row["image_path"]: row["class_label"] for row in annotations}
-        for row in annotations:
-            votes.setdefault(row["image_path"], Counter())[row["class_label"]] += 1
+            for row in annotations:
+                complete_votes.setdefault(row["image_path"], Counter())[row["class_label"]] += 1
 
     if sorted(complete) != sorted(EXPERT_IDS):
         raise RuntimeError(f"complete expert IDs changed: {sorted(complete)}")
     label_to_index = {label: index for index, label in enumerate(LABELS)}
-    paths = sorted(votes)
-    targets = {path: label_to_index[majority_with_priority(votes[path], TARGET_PRIORITY)] for path in paths}
+    paths = sorted(complete_votes)
+    targets = {
+        path: label_to_index[majority_with_priority(complete_votes[path], TARGET_PRIORITY)]
+        for path in paths
+    }
     experts = {
         path: [label_to_index[complete[expert_id][path]] for expert_id in EXPERT_IDS]
         for path in paths
@@ -218,7 +221,8 @@ def calibrate_micebone(root: Path, config: dict) -> dict:
         },
         "declared_deviations": [
             "The paper does not define clean targets, tie handling, augmentation, normalization, or pretrained initialization.",
-            "All-rater majority with lexicographic ties, standard ImageNet normalization/augmentation, and random initialization are fixed clean-room choices.",
+            "Complete-annotator majority with g>ug>nr priority recovers 14/16 Table 3 values after rounding and is the fixed target reconstruction.",
+            "Standard ImageNet normalization/augmentation and random initialization are fixed clean-room choices.",
             "One epoch is not scientific evidence for Claims 5 or 6.",
         ],
         "runs": runs,

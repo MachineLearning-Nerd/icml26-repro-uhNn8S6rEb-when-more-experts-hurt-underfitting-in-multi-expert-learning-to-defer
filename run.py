@@ -89,6 +89,10 @@ def main() -> None:
     if config["stage"] == "micebone-training-calibration":
         calibration = calibrate_micebone(ROOT, config)
         (ARTIFACTS / "micebone_calibration.json").write_text(json.dumps(calibration, indent=2) + "\n")
+    if "claim6_contract" in config:
+        (ARTIFACTS / "claim6_contract.json").write_text(json.dumps(config["claim6_contract"], indent=2) + "\n")
+    for name in ["method.md", "source_audit.md"]:
+        (ARTIFACTS / name).write_text((ROOT / name).read_text())
 
     elapsed = time.monotonic() - started
     environment = {
@@ -116,6 +120,7 @@ def main() -> None:
         "3": {"statement": "Theorem 2 continuity and Lemma 5 CE/OvA classifier consistency", "quantifier": "universal under the stated continuity/symmetry assumptions", "result": "VERIFIED"},
         "4": {"statement": "Theorem 6(A) CE score equals Acc_j* times V_tilde under Condition 1", "quantifier": "any x and minimizer satisfying Condition 1", "result": "FALSIFIED"},
         "5": {"statement": "PiCCE has improved system error and higher coverage across expert counts on both real-world datasets", "quantifier": "every reported dataset, method family, and expert count", "result": "FALSIFIED"},
+        "6": {"statement": "On MiceBone, vanilla classifier accuracy drops as J increases while PiCCE remains stable", "quantifier": "CE and OvA families at J in {2,4,6,8}, averaged over three trials", "result": "BLOCKED"},
     }
     (ARTIFACTS / "claim_contract.json").write_text(json.dumps(contracts, indent=2) + "\n")
 
@@ -127,7 +132,7 @@ def main() -> None:
         "Claim 5: **FALSIFIED AS PRINTED**. Table 2 reports MiceBone/two-expert CE error "
         "`15.17` versus PiCCE-CE `15.23`, contradicting improved error at every count.\n\n"
         "The verifier and independent checker exit 0. All five claim-specific tampered controls exit nonzero. "
-        "This source-table audit does not independently reproduce training and does not address Claim 6.\n"
+        "Claim 6's full-data decision rule is preregistered; no training result is accepted at this stage.\n"
     )
     print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()}, "runtime_seconds": elapsed}, indent=2))
     bundle = {path.name: path.read_text() for path in sorted(ARTIFACTS.iterdir())}

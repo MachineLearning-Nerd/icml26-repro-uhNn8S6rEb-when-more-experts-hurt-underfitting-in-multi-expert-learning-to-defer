@@ -28,6 +28,29 @@
    and `(15.23,69.28)` for PiCCE. The error component is worse, so the
    printed conjunction and the imported "consistently outperforms" claim
    have an explicit counterexample in the paper's own table.
+6. Figure 2 states that, across all datasets, existing methods drop as the
+   number of experts increases while PiCCE remains stable. Section 6.2 says
+   CE and OvA classifier accuracy consistently degrades and PiCCE remains
+   insensitive to expert-set size. Appendix D.2 fixes MiceBone to ResNet-18,
+   AdamW, learning rate `3e-4`, weight decay `5e-4`, batch size 128, 100
+   epochs, the first 2/4/6/8 experts in Table 3 order, folds 1–4 for training,
+   and fold 5 for testing.
+
+## MiceBone target reconstruction
+
+- Official source: <https://zenodo.org/records/8115942>, record 8115942,
+  `MiceBone.zip`, MD5 `8a4026c22f07373f022d9ab4818089ec`.
+- The paper does not specify the clean target or majority tie rule. A frozen
+  HF `cpu-upgrade` audit compared both defensible vote pools and all six
+  global class-priority rules against all 16 Table 3 train/test accuracies.
+- Majority over the eight complete annotators with priority `g > ug > nr`
+  recovers 14/16 values exactly after rounding, with mean absolute error
+  `0.009665` and maximum error `0.106358` percentage points. This uniquely
+  strongest reconstruction is fixed before training; the two residual
+  discrepancies remain declared limitations.
+- Figure asset: <https://ar5iv.labs.arxiv.org/html/2602.17144/assets/Figure/MiceBone.png>,
+  retrieved 2026-08-01T05:45:19Z with a browser User-Agent, SHA-256
+  `b8943f6e1f1eec14629dd75d194d5b38fbcb9393d0256b958b99827006829d9d`.
 
 ## Theorem 6(A) source contradiction
 
