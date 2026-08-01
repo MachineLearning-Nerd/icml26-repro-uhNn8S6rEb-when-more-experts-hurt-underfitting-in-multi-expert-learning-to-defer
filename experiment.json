@@ -7,7 +7,7 @@
   "fixed_command": "uv run --frozen python run.py",
   "micebone_training": {
     "epochs": 100,
-    "expert_counts": [2],
+    "expert_counts": [8],
     "methods": ["ce"],
     "seeds": [260217144],
     "target": "complete_annotator_majority_priority_g_ug_nr",
