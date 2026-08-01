@@ -3,10 +3,11 @@
   "started_at_utc": "2026-08-01T08:22:09.759000+00:00",
   "reason": "The original 48 jobs were canceled by Hugging Face with NO_CREDITS before any accepted artifact bundle completed.",
   "protocol_change": false,
-  "scheduling_change": "Run the same committed cells in batches of eight instead of launching all 48 concurrently.",
-  "scheduling_rationale": "The bounded batch reduces platform contention while retaining the exact preregistered code, data, command, seed, flavor, image, and one-day timeout.",
+  "scheduling_change": "The initial eight-job replacement batch was canceled after the user imposed a maximum of four concurrent jobs per paper. Future runs may execute any number of cells sequentially but never more than four concurrently.",
+  "scheduling_rationale": "The concurrency cap controls simultaneous spend and platform contention while retaining the exact preregistered code, data, command, seed, flavor, image, and one-day timeout.",
   "expected_cells": 48,
-  "batch_size": 8,
+  "initial_batch_size": 8,
+  "maximum_parallel_jobs_per_paper": 4,
   "batches": [
     {
       "batch": 1,
@@ -21,6 +22,16 @@
           "RUNNING": 8
         },
         "flavor": "cpu-upgrade"
+      },
+      "cancellation": {
+        "requested_at_utc": "2026-08-01T08:49:46+00:00",
+        "reason": "User requested cancellation because each job was projected to exceed one hour and set a maximum of four concurrent jobs per paper.",
+        "matched_jobs": 8,
+        "status_counts": {
+          "CANCELED": 8
+        },
+        "completed_artifact_bundles": 0,
+        "scientific_verdict": null
       },
       "cells": [
         {
