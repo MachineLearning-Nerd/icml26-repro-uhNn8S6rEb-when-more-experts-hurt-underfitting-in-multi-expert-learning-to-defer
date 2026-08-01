@@ -6,6 +6,23 @@
 - Scope: Definition 1 / Eq. 9, Theorem 2, Lemmas 3–5, Condition 1,
   Theorem 6, Section 6, Tables 1–2, Figure 2, and Appendix D.
 
+## Exact HTML anchors
+
+- Claim 1: [Equation 6](https://ar5iv.labs.arxiv.org/html/2602.17144#S3.E6)
+- Claim 2: [Equation 9](https://ar5iv.labs.arxiv.org/html/2602.17144#S4.E9) and
+  [Lemma 4](https://ar5iv.labs.arxiv.org/html/2602.17144#Thmtheorem4)
+- Claim 3: [Theorem 2](https://ar5iv.labs.arxiv.org/html/2602.17144#Thmtheorem2) and
+  [Lemma 5](https://ar5iv.labs.arxiv.org/html/2602.17144#Thmtheorem5)
+- Claim 4: [Condition 1](https://ar5iv.labs.arxiv.org/html/2602.17144#Thmcondition1) and
+  [Theorem 6](https://ar5iv.labs.arxiv.org/html/2602.17144#Thmtheorem6)
+- Claim 5: [Table 2](https://ar5iv.labs.arxiv.org/html/2602.17144#S5.T2) and
+  [Section 6.2 wording](https://ar5iv.labs.arxiv.org/html/2602.17144#S6.SS2.SSS0.Px1.p2.1)
+- Claim 6: [Figure 2](https://ar5iv.labs.arxiv.org/html/2602.17144#S5.F2),
+  [MiceBone panel](https://ar5iv.labs.arxiv.org/html/2602.17144#S5.F2.sf3), and
+  [Section 6.2 wording](https://ar5iv.labs.arxiv.org/html/2602.17144#S6.SS2.SSS0.Px2.p1.1);
+  the [Appendix D.2 MiceBone setup](https://ar5iv.labs.arxiv.org/html/2602.17144#A4.SS2.SSS0.Px1.p1.1)
+  begins at that anchor.
+
 ## Exact contracts and assumptions
 
 1. Section 3.1 / Eq. 6 defines the vanilla expert aggregation
