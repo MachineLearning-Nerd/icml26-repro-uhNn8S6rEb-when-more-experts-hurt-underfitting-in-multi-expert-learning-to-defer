@@ -1,0 +1,35 @@
+{
+  "checked_at_utc": "2026-08-01T08:02:20.745524+00:00",
+  "logs_scanned_at_utc": "2026-08-01T08:07:21+00:00",
+  "campaign_project_id": "45b8786c-df14-44dd-842d-4263acd20fc2",
+  "shard_manifest": "../../shard_manifest.json",
+  "shard_manifest_sha256": "4b4d5514419f1cbe8effc70613af5e551cc33c74aa3fca1e6170459c30ea8f66",
+  "expected_jobs": 48,
+  "matched_jobs": 48,
+  "job_status_counts": {
+    "CANCELED": 48
+  },
+  "cancel_reason_counts": {
+    "NO_CREDITS": 48
+  },
+  "configured_timeout_seconds": 86400,
+  "maximum_completed_epoch_counts": {
+    "1": 38,
+    "2": 10
+  },
+  "completed_artifact_bundles": 0,
+  "scientific_verdict": null,
+  "interpretation": "Hugging Face canceled every preregistered cpu-upgrade shard because the account had no remaining compute credits. No shard completed its fixed 100-epoch protocol, so these partial logs are infrastructure diagnostics and are not accepted evidence.",
+  "required_resume_condition": "Restore paid Hugging Face Jobs credits, then rerun the identical 48 committed shard commands without changing the preregistered protocol.",
+  "inspection": {
+    "authenticated_list_endpoint": "https://huggingface.co/api/jobs/DineshAI?label=or_project%3D45b8786c-df14-44dd-842d-4263acd20fc2",
+    "representative_job_endpoint": "https://huggingface.co/api/jobs/DineshAI/6a6d95326b79c09949c1e1e1",
+    "representative_job_id": "6a6d95326b79c09949c1e1e1",
+    "representative_status": {
+      "stage": "CANCELED",
+      "message": null,
+      "failureCount": 0,
+      "cancelReason": "NO_CREDITS"
+    }
+  }
+}
