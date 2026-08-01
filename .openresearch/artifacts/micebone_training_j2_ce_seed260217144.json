@@ -1,0 +1,54 @@
+{
+  "accepted_scientific_result": false,
+  "purpose": "full-data wall-time calibration only",
+  "target": "complete_annotator_majority_priority_g_ug_nr",
+  "training_contract": {
+    "epochs": 1,
+    "expert_counts": [
+      2
+    ],
+    "methods": [
+      "ce"
+    ],
+    "seeds": [
+      260217144
+    ],
+    "target": "complete_annotator_majority_priority_g_ug_nr",
+    "accepted_scientific_result": false
+  },
+  "paper_faithful": {
+    "model": "torchvision ResNet-18, random initialization",
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0005,
+    "batch_size": 128,
+    "train_images": 5697,
+    "test_images": 1543
+  },
+  "declared_deviations": [
+    "The paper does not define clean targets, tie handling, augmentation, normalization, or pretrained initialization.",
+    "Complete-annotator majority with g>ug>nr priority recovers 14/16 Table 3 values after rounding and is the fixed target reconstruction.",
+    "Standard ImageNet normalization/augmentation and random initialization are fixed clean-room choices.",
+    "A calibration shard is not scientific evidence; an accepted shard is not a Claim 6 verdict until the full preregistered grid aggregates."
+  ],
+  "runs": [
+    {
+      "method": "ce",
+      "experts": 2,
+      "seed": 260217144,
+      "epochs": 1,
+      "runtime_seconds": 654.2678707840387,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.721608182265295,
+          "samples": 1543,
+          "classifier_accuracy_percent": 35.38561244329229,
+          "system_error_percent": 44.26441996111471,
+          "coverage_percent": 55.73558003888529
+        }
+      ]
+    }
+  ],
+  "projected_100_epoch_4J_3seed_serial_hours": 218.08929026134624
+}

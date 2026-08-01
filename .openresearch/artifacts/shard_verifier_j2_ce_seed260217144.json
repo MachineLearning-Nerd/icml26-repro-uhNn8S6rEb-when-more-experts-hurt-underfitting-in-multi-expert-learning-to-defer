@@ -1,0 +1,6 @@
+{
+  "command": "python verify_shard.py .openresearch/artifacts/micebone_training_j2_ce_seed260217144.json",
+  "exit_code": 0,
+  "stdout": "training shard integrity verified\n",
+  "stderr": ""
+}
