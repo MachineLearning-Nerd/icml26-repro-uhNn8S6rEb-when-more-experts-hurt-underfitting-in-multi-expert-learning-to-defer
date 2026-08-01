@@ -95,6 +95,25 @@ def main() -> None:
     assert "awaiting judge" not in root_text.lower()
     assert "12/12" not in root_text or "forecast" in root_text.lower()
 
+    allowlist_relative = "evidence/release/upload_allowlist.json"
+    hashes_relative = "evidence/release/upload_manifest.sha256"
+    changed = {
+        relative
+        for relative, path in candidate_files.items()
+        if relative not in judged_files or sha256(path) != judged_files[relative]
+    }
+    assert all(candidate_files[relative].suffix.lower() in TEXT_SUFFIXES for relative in changed)
+    allowlist = json.loads((candidate / allowlist_relative).read_text())
+    assert allowlist["paths"] == sorted(set(allowlist["paths"]))
+    assert set(allowlist["paths"]) == changed
+    manifest = {}
+    for line in (candidate / hashes_relative).read_text().splitlines():
+        digest, relative = line.split("  ", 1)
+        assert re.fullmatch(r"[0-9a-f]{64}", digest)
+        manifest[relative] = digest
+    assert set(manifest) == changed - {hashes_relative}
+    assert all(sha256(candidate / relative) == digest for relative, digest in manifest.items())
+
     scanned = 0
     for relative, path in candidate_files.items():
         if path.suffix.lower() not in TEXT_SUFFIXES:
@@ -113,6 +132,8 @@ def main() -> None:
                 "navigation_nodes": len(nodes),
                 "current_verification_first": True,
                 "visibility_rows_complete": len(rows),
+                "text_upload_paths": len(changed),
+                "upload_manifest_verified": True,
                 "text_files_scanned_for_secrets": scanned,
             },
             sort_keys=True,
