@@ -1,15 +1,15 @@
 {
   "stage": "micebone-training-shard",
-  "seed": 260217144,
+  "seed": 260217145,
   "estimated_cores": 8,
   "selected_flavor": "cpu-upgrade",
   "container_image": "ghcr.io/astral-sh/uv:python3.12-bookworm-slim",
   "fixed_command": "uv run --frozen python run.py",
   "micebone_training": {
     "epochs": 100,
-    "expert_counts": [2],
-    "methods": ["ce"],
-    "seeds": [260217144],
+    "expert_counts": [4],
+    "methods": ["picce_ova"],
+    "seeds": [260217145],
     "target": "complete_annotator_majority_priority_g_ug_nr",
     "cpu_memory_format": "channels_last",
     "accepted_scientific_result": true
