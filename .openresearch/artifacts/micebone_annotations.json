@@ -1,0 +1,186 @@
+{
+  "annotation_record_count": 81,
+  "annotation_count_histogram": {
+    "724": 73,
+    "7240": 8
+  },
+  "unique_image_count": 7240,
+  "fold_counts": {
+    "fold1": 1540,
+    "fold2": 1513,
+    "fold3": 1325,
+    "fold4": 1319,
+    "fold5": 1543
+  },
+  "class_counts_from_filename": {
+    "g": 1236,
+    "nr": 4731,
+    "ug": 1273
+  },
+  "sample_image_geometry": [
+    {
+      "name": "MiceBone/fold5/nr#_Mouse23_wt_LTibiaLowerPart_180613_13-51-21#image_0126#00.png",
+      "size": [
+        224,
+        224
+      ],
+      "mode": "RGB"
+    },
+    {
+      "name": "MiceBone/fold4/nr#_Mouse25_wt_LTibiaUpper_180621_15-29-58#image_0073#00.png",
+      "size": [
+        224,
+        224
+      ],
+      "mode": "RGB"
+    },
+    {
+      "name": "MiceBone/fold3/g#_Mouse20_wt_Leg1_180522_11-28-38#image_0022#00.png",
+      "size": [
+        224,
+        224
+      ],
+      "mode": "RGB"
+    },
+    {
+      "name": "MiceBone/fold2/ug#_Mouse21_het_Leg1_180522_09-49-44#image_0083#00.png",
+      "size": [
+        224,
+        224
+      ],
+      "mode": "RGB"
+    },
+    {
+      "name": "MiceBone/fold1/nr#_Mouse25_wt_RTibiaLower_180628_15-55-41#image_0126#00.png",
+      "size": [
+        224,
+        224
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "complete_annotator_count": 8,
+  "complete_annotators": [
+    {
+      "name": "INVALID290",
+      "annotation_count": 7240,
+      "train_correct": 3968,
+      "train_total": 5697,
+      "train_accuracy_percent": 69.6506933473758,
+      "test_correct": 1134,
+      "test_total": 1543,
+      "test_accuracy_percent": 73.49319507453014,
+      "class_label_counts": {
+        "g": 1061,
+        "nr": 4567,
+        "ug": 1612
+      }
+    },
+    {
+      "name": "INVALID47",
+      "annotation_count": 7240,
+      "train_correct": 3975,
+      "train_total": 5697,
+      "train_accuracy_percent": 69.77356503422854,
+      "test_correct": 1143,
+      "test_total": 1543,
+      "test_accuracy_percent": 74.07647440051846,
+      "class_label_counts": {
+        "g": 1083,
+        "nr": 4565,
+        "ug": 1592
+      }
+    },
+    {
+      "name": "INVALID533",
+      "annotation_count": 7240,
+      "train_correct": 3853,
+      "train_total": 5697,
+      "train_accuracy_percent": 67.63208706336668,
+      "test_correct": 1110,
+      "test_total": 1543,
+      "test_accuracy_percent": 71.93778353856125,
+      "class_label_counts": {
+        "g": 988,
+        "nr": 5142,
+        "ug": 1110
+      }
+    },
+    {
+      "name": "INVALID534",
+      "annotation_count": 7240,
+      "train_correct": 3827,
+      "train_total": 5697,
+      "train_accuracy_percent": 67.1757065121994,
+      "test_correct": 1096,
+      "test_total": 1543,
+      "test_accuracy_percent": 71.03046014257939,
+      "class_label_counts": {
+        "g": 1122,
+        "nr": 4743,
+        "ug": 1375
+      }
+    },
+    {
+      "name": "INVALID580",
+      "annotation_count": 7240,
+      "train_correct": 3794,
+      "train_total": 5697,
+      "train_accuracy_percent": 66.5964542741794,
+      "test_correct": 988,
+      "test_total": 1543,
+      "test_accuracy_percent": 64.03110823071938,
+      "class_label_counts": {
+        "g": 1080,
+        "nr": 4266,
+        "ug": 1894
+      }
+    },
+    {
+      "name": "INVALID581",
+      "annotation_count": 7240,
+      "train_correct": 3892,
+      "train_total": 5697,
+      "train_accuracy_percent": 68.31665789011761,
+      "test_correct": 1072,
+      "test_total": 1543,
+      "test_accuracy_percent": 69.4750486066105,
+      "class_label_counts": {
+        "g": 868,
+        "nr": 4984,
+        "ug": 1388
+      }
+    },
+    {
+      "name": "INVALID745",
+      "annotation_count": 7240,
+      "train_correct": 3842,
+      "train_total": 5697,
+      "train_accuracy_percent": 67.43900298402669,
+      "test_correct": 1139,
+      "test_total": 1543,
+      "test_accuracy_percent": 73.81723914452365,
+      "class_label_counts": {
+        "g": 783,
+        "nr": 5610,
+        "ug": 847
+      }
+    },
+    {
+      "name": "INVALID966",
+      "annotation_count": 7240,
+      "train_correct": 3877,
+      "train_total": 5697,
+      "train_accuracy_percent": 68.05336141829032,
+      "test_correct": 1132,
+      "test_total": 1543,
+      "test_accuracy_percent": 73.36357744653273,
+      "class_label_counts": {
+        "g": 1032,
+        "nr": 5332,
+        "ug": 876
+      }
+    }
+  ],
+  "privacy": "user_mail fields were neither copied nor emitted"
+}
