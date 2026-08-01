@@ -19,6 +19,23 @@ def near(left: float, right: float) -> bool:
 def main() -> None:
     result_path = Path(sys.argv[1])
     evidence = json.loads(result_path.read_text())
+    inventory = json.loads((result_path.parent / "micebone_inventory.json").read_text())
+    annotations = json.loads((result_path.parent / "micebone_annotations.json").read_text())
+    targets = json.loads((result_path.parent / "micebone_targets.json").read_text())
+    assert inventory["record_id"] == 8115942
+    assert inventory["archive_md5"] == "8a4026c22f07373f022d9ab4818089ec"
+    assert inventory["archive_bytes"] == 680_507_926
+    assert inventory["zip_crc_all_members_pass"] is True
+    assert inventory["image_count"] == annotations["unique_image_count"] == 7240
+    assert sum(count for fold, count in annotations["fold_counts"].items() if fold != "fold5") == 5697
+    assert annotations["fold_counts"]["fold5"] == 1543
+    assert [expert["expert_id"] for expert in targets["experts"]] == [
+        "047", "290", "533", "534", "580", "581", "966", "745"
+    ]
+    best_target = targets["global_priority_tie_rules_ranked_by_table_3_mae"][0]
+    assert best_target["vote_pool"] == "complete_annotators"
+    assert best_target["priority"] == ["g", "ug", "nr"]
+    assert best_target["exact_rounded_matches_out_of_16"] == 14
     observed = {}
     for path in result_path.parent.glob("micebone_training_j*_seed*.json"):
         match = NAME.fullmatch(path.name)
@@ -86,6 +103,7 @@ def main() -> None:
         json.dumps(
             {
                 "independent_verdict": verdict,
+                "dataset_audit": True,
                 "exact_grid_cells": len(observed),
                 "degradation": degradation,
                 "stability": stability,

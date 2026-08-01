@@ -24,6 +24,32 @@ def main() -> None:
     manifest_path = artifacts.parents[1] / result["shard_manifest_file"]
     manifest = json.loads(manifest_path.read_text())
     assert result["shard_manifest_sha256"] == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    inventory_path = artifacts / "micebone_inventory.json"
+    annotations_path = artifacts / "micebone_annotations.json"
+    targets_path = artifacts / "micebone_targets.json"
+    inventory = json.loads(inventory_path.read_text())
+    annotations = json.loads(annotations_path.read_text())
+    targets = json.loads(targets_path.read_text())
+    dataset_audit = result["dataset_audit"]
+    assert inventory["record_id"] == 8115942
+    assert inventory["archive_bytes"] == dataset_audit["archive_bytes"] == 680_507_926
+    assert inventory["archive_md5"] == dataset_audit["archive_md5"] == "8a4026c22f07373f022d9ab4818089ec"
+    assert inventory["zip_crc_all_members_pass"] is dataset_audit["zip_crc_all_members_pass"] is True
+    assert inventory["image_count"] == annotations["unique_image_count"] == dataset_audit["images"] == 7240
+    assert annotations["fold_counts"] == dataset_audit["fold_counts"]
+    assert sum(value for key, value in annotations["fold_counts"].items() if key != "fold5") == 5697
+    assert annotations["fold_counts"]["fold5"] == 1543
+    assert annotations["complete_annotator_count"] == 8
+    assert dataset_audit["expert_ids"] == [expert["expert_id"] for expert in targets["experts"]]
+    assert dataset_audit["expert_ids"] == ["047", "290", "533", "534", "580", "581", "966", "745"]
+    best = targets["global_priority_tie_rules_ranked_by_table_3_mae"][0]
+    assert dataset_audit["target_vote_pool"] == best["vote_pool"] == "complete_annotators"
+    assert dataset_audit["target_priority"] == best["priority"] == ["g", "ug", "nr"]
+    assert dataset_audit["table3_exact_rounded_matches_out_of_16"] == best["exact_rounded_matches_out_of_16"] == 14
+    assert close(dataset_audit["table3_mae_percentage_points"], best["mean_absolute_error_percentage_points"])
+    assert close(dataset_audit["table3_max_error_percentage_points"], best["maximum_absolute_error_percentage_points"])
+    for path in [inventory_path, annotations_path, targets_path]:
+        assert dataset_audit["files"][path.name] == hashlib.sha256(path.read_bytes()).hexdigest()
     expected_cells = {
         (experts, method, seed)
         for experts in EXPERT_COUNTS
