@@ -9,7 +9,7 @@ from pathlib import Path
 
 import torch
 
-from aggregate_claim6 import aggregate_claim6
+from aggregate_claim6 import aggregate_claim6, render_claim6_report
 from micebone import audit_micebone, inspect_annotations, resolve_targets
 from micebone_train import effective_cpu_count, run_micebone_training
 from theory import evaluate_theory
@@ -119,6 +119,7 @@ def main() -> None:
         claim6_result = aggregate_claim6(ARTIFACTS)
         claim6_path = ARTIFACTS / "claim6_results.json"
         claim6_path.write_text(json.dumps(claim6_result, indent=2, sort_keys=True) + "\n")
+        (ARTIFACTS / "claim6_report.md").write_text(render_claim6_report(claim6_result))
         claim6_verifier = run_checker("verify_claim6.py", claim6_path)
         claim6_independent = run_checker("independent_claim6_check.py", claim6_path)
         (ARTIFACTS / "claim6_verifier_output.json").write_text(json.dumps(claim6_verifier, indent=2) + "\n")

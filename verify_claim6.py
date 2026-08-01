@@ -34,6 +34,10 @@ def main() -> None:
         f"micebone_training_j{experts}_{method}_seed{seed}.json"
         for experts, method, seed in expected_cells
     }
+    expected_suffixes = {
+        f"j{experts}_{method}_seed{seed}"
+        for experts, method, seed in expected_cells
+    }
     assert {
         (shard["j"], shard["method"], shard["seed"])
         for shard in manifest["shards"]
@@ -42,6 +46,18 @@ def main() -> None:
     assert len({shard["run_id"] for shard in manifest["shards"]}) == 48
     assert len({shard["job_id"] for shard in manifest["shards"]}) == 48
     assert {path.name for path in artifacts.glob("micebone_training_j*_seed*.json")} == expected_files
+    assert {path.name for path in artifacts.glob("environment_j*_seed*.json")} == {
+        f"environment_{suffix}.json" for suffix in expected_suffixes
+    }
+    assert {path.name for path in artifacts.glob("shard_verifier_j*_seed*.json")} == {
+        f"shard_verifier_{suffix}.json" for suffix in expected_suffixes
+    }
+    assert {path.name for path in artifacts.glob("shard_negative_j*_seed*.json")} == {
+        f"shard_negative_{suffix}.json" for suffix in expected_suffixes
+    }
+    assert {path.name for path in artifacts.glob("shard_negative_output_j*_seed*.json")} == {
+        f"shard_negative_output_{suffix}.json" for suffix in expected_suffixes
+    }
     assert result["grid_size"] == 48
     assert result["expert_counts"] == EXPERT_COUNTS
     assert result["methods"] == METHODS
@@ -58,7 +74,15 @@ def main() -> None:
     for experts, method, seed in sorted(expected_cells):
         name = f"micebone_training_j{experts}_{method}_seed{seed}.json"
         path = artifacts / name
+        suffix = f"j{experts}_{method}_seed{seed}"
+        environment_path = artifacts / f"environment_{suffix}.json"
+        verifier_path = artifacts / f"shard_verifier_{suffix}.json"
+        negative_path = artifacts / f"shard_negative_{suffix}.json"
+        negative_output_path = artifacts / f"shard_negative_output_{suffix}.json"
         raw = json.loads(path.read_text())
+        environment = json.loads(environment_path.read_text())
+        verifier = json.loads(verifier_path.read_text())
+        negative_output = json.loads(negative_output_path.read_text())
         contract = raw["training_contract"]
         assert raw["accepted_scientific_result"] is True
         assert contract["epochs"] == 100
@@ -86,6 +110,25 @@ def main() -> None:
         assert row["final_epoch"] == 100
         assert row["test_samples"] == 1543
         assert close(row["classifier_accuracy_percent"], value)
+        assert close(row["training_runtime_seconds"], run["runtime_seconds"])
+        assert row["environment_file"] == environment_path.name
+        assert row["environment_sha256"] == hashlib.sha256(environment_path.read_bytes()).hexdigest()
+        assert row["git_sha"] == environment["git_sha"]
+        assert row["selected_flavor"] == environment["selected_flavor"] == "cpu-upgrade"
+        assert row["actual_logical_cpus"] == environment["actual_logical_cpus"]
+        assert row["actual_cpu_affinity"] == environment["actual_cpu_affinity"]
+        assert row["effective_cpu_quota"] == environment["effective_cpu_quota"] > 0
+        assert row["cuda_available"] is environment["cuda_available"] is False
+        assert close(row["environment_runtime_seconds"], environment["runtime_seconds"])
+        assert row["shard_verifier_file"] == verifier_path.name
+        assert row["shard_verifier_sha256"] == hashlib.sha256(verifier_path.read_bytes()).hexdigest()
+        assert row["shard_verifier_exit"] == verifier["exit_code"] == 0
+        assert row["negative_control_file"] == negative_path.name
+        assert row["negative_control_sha256"] == hashlib.sha256(negative_path.read_bytes()).hexdigest()
+        assert row["negative_control_output_file"] == negative_output_path.name
+        assert row["negative_control_output_sha256"] == hashlib.sha256(negative_output_path.read_bytes()).hexdigest()
+        assert row["negative_control_exit"] == negative_output["exit_code"]
+        assert row["negative_control_exit"] != 0
         values[method, experts, seed] = value
 
     means = {
