@@ -69,6 +69,7 @@ def main() -> None:
         "seed": config["seed"],
         "estimated_cores": config["estimated_cores"],
         "selected_flavor": config["selected_flavor"],
+        "container_image": config["container_image"],
         "actual_logical_cpus": os.cpu_count(),
         "runtime_seconds": elapsed,
         "python": sys.version,
