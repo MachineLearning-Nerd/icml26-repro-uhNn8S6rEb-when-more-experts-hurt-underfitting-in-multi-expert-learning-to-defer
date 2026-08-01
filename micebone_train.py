@@ -195,8 +195,9 @@ def train_one(data, method: str, experts_count: int, seed: int, epochs: int) -> 
     }
 
 
-def calibrate_micebone(root: Path, config: dict) -> dict:
+def run_micebone_training(root: Path, config: dict) -> dict:
     torch.set_num_threads(effective_cpu_count())
+    torch.set_num_interop_threads(1)
     data = prepare_data(root)
     training = config["micebone_training"]
     runs = [
@@ -206,10 +207,15 @@ def calibrate_micebone(root: Path, config: dict) -> dict:
         for method in training["methods"]
     ]
     observed_epoch_seconds = sum(run["runtime_seconds"] / run["epochs"] for run in runs)
-    return {
-        "accepted_scientific_result": False,
-        "purpose": "full-data one-epoch wall-time calibration only",
+    result = {
+        "accepted_scientific_result": training["accepted_scientific_result"],
+        "purpose": (
+            "faithful full-data training shard; Claim 6 remains blocked until all preregistered shards aggregate"
+            if training["accepted_scientific_result"]
+            else "full-data wall-time calibration only"
+        ),
         "target": training["target"],
+        "training_contract": training,
         "paper_faithful": {
             "model": "torchvision ResNet-18, random initialization",
             "optimizer": "AdamW",
@@ -223,8 +229,10 @@ def calibrate_micebone(root: Path, config: dict) -> dict:
             "The paper does not define clean targets, tie handling, augmentation, normalization, or pretrained initialization.",
             "Complete-annotator majority with g>ug>nr priority recovers 14/16 Table 3 values after rounding and is the fixed target reconstruction.",
             "Standard ImageNet normalization/augmentation and random initialization are fixed clean-room choices.",
-            "One epoch is not scientific evidence for Claims 5 or 6.",
+            "A calibration shard is not scientific evidence; an accepted shard is not a Claim 6 verdict until the full preregistered grid aggregates.",
         ],
         "runs": runs,
-        "projected_100_epoch_4J_3seed_serial_hours": observed_epoch_seconds * 100 * 4 * 3 / 3600,
     }
+    if not training["accepted_scientific_result"]:
+        result["projected_100_epoch_4J_3seed_serial_hours"] = observed_epoch_seconds * 100 * 4 * 3 / 3600
+    return result

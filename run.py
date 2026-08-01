@@ -10,7 +10,7 @@ from pathlib import Path
 import torch
 
 from micebone import audit_micebone, inspect_annotations, resolve_targets
-from micebone_train import calibrate_micebone, effective_cpu_count
+from micebone_train import effective_cpu_count, run_micebone_training
 from theory import evaluate_theory
 
 
@@ -86,9 +86,30 @@ def main() -> None:
     if config["stage"] == "micebone-target-audit":
         targets = resolve_targets(ROOT)
         (ARTIFACTS / "micebone_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
+    shard_name = None
     if config["stage"] == "micebone-training-calibration":
-        calibration = calibrate_micebone(ROOT, config)
+        calibration = run_micebone_training(ROOT, config)
         (ARTIFACTS / "micebone_calibration.json").write_text(json.dumps(calibration, indent=2) + "\n")
+    if config["stage"] == "micebone-training-shard":
+        training = config["micebone_training"]
+        if any(len(training[key]) != 1 for key in ["expert_counts", "methods", "seeds"]):
+            raise RuntimeError("a training shard must contain one J, method, and seed")
+        shard_name = f"j{training['expert_counts'][0]}_{training['methods'][0]}_seed{training['seeds'][0]}"
+        shard = run_micebone_training(ROOT, config)
+        shard_path = ARTIFACTS / f"micebone_training_{shard_name}.json"
+        shard_path.write_text(json.dumps(shard, indent=2) + "\n")
+        shard_verifier = run_checker("verify_shard.py", shard_path)
+        (ARTIFACTS / f"shard_verifier_{shard_name}.json").write_text(json.dumps(shard_verifier, indent=2) + "\n")
+        if shard_verifier["exit_code"] != 0:
+            raise RuntimeError("training shard failed integrity verification")
+        tampered = copy.deepcopy(shard)
+        tampered["runs"][0]["history"][-1]["samples"] = 1542
+        tampered_path = ARTIFACTS / f"shard_negative_{shard_name}.json"
+        tampered_path.write_text(json.dumps(tampered, indent=2) + "\n")
+        shard_control = run_checker("verify_shard.py", tampered_path)
+        (ARTIFACTS / f"shard_negative_output_{shard_name}.json").write_text(json.dumps(shard_control, indent=2) + "\n")
+        if shard_control["exit_code"] == 0:
+            raise RuntimeError("training shard negative control incorrectly passed")
     if "claim6_contract" in config:
         (ARTIFACTS / "claim6_contract.json").write_text(json.dumps(config["claim6_contract"], indent=2) + "\n")
     for name in ["method.md", "source_audit.md"]:
@@ -113,6 +134,8 @@ def main() -> None:
         "stage": config["stage"],
     }
     (ARTIFACTS / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
+    if shard_name is not None:
+        (ARTIFACTS / f"environment_{shard_name}.json").write_text(json.dumps(environment, indent=2) + "\n")
 
     contracts = {
         "1": {"statement": "Eq. 6 aggregation can scale linearly in J and flatten classifier-label margins", "quantifier": "constructive family for every positive integer J", "result": "VERIFIED"},
