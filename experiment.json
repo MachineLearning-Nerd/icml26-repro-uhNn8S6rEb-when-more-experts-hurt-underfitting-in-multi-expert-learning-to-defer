@@ -1,8 +1,16 @@
 {
-  "stage": "micebone-target-audit",
+  "stage": "micebone-training-calibration",
   "seed": 260217144,
-  "estimated_cores": 4,
+  "estimated_cores": 32,
   "selected_flavor": "cpu-upgrade",
   "container_image": "ghcr.io/astral-sh/uv:python3.12-bookworm-slim",
-  "fixed_command": "uv run --frozen python run.py"
+  "fixed_command": "uv run --frozen python run.py",
+  "micebone_training": {
+    "epochs": 1,
+    "expert_counts": [2],
+    "methods": ["ce", "picce_ce", "ova", "picce_ova"],
+    "seeds": [260217144],
+    "target": "all_rater_majority_lexicographic_ties",
+    "accepted_scientific_result": false
+  }
 }

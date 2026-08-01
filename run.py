@@ -10,6 +10,7 @@ from pathlib import Path
 import torch
 
 from micebone import audit_micebone, inspect_annotations, resolve_targets
+from micebone_train import calibrate_micebone
 from theory import evaluate_theory
 
 
@@ -85,6 +86,9 @@ def main() -> None:
     if config["stage"] == "micebone-target-audit":
         targets = resolve_targets(ROOT)
         (ARTIFACTS / "micebone_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
+    if config["stage"] == "micebone-training-calibration":
+        calibration = calibrate_micebone(ROOT, config)
+        (ARTIFACTS / "micebone_calibration.json").write_text(json.dumps(calibration, indent=2) + "\n")
 
     elapsed = time.monotonic() - started
     environment = {
