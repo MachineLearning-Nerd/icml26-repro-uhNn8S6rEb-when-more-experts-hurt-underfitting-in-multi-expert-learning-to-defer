@@ -55,14 +55,25 @@ def main() -> None:
     if verifier["exit_code"] != 0 or independent["exit_code"] != 0:
         raise RuntimeError("positive evidence failed verification")
 
-    tampered = copy.deepcopy(results)
-    tampered["claims"]["4"]["ce_risk_minimizer_u_j_star"] = {"numerator": 7, "denominator": 20}
-    tampered_path = ARTIFACTS / "negative_control_tampered.json"
-    tampered_path.write_text(json.dumps(tampered, indent=2, sort_keys=True) + "\n")
-    negative = run_checker("verify.py", tampered_path)
-    (ARTIFACTS / "negative_control_output.json").write_text(json.dumps(negative, indent=2) + "\n")
-    if negative["exit_code"] == 0:
-        raise RuntimeError("negative control incorrectly passed")
+    controls = {}
+    mutations = {}
+    mutations["claim_1"] = copy.deepcopy(results)
+    mutations["claim_1"]["claims"]["1"]["sweep"][0]["aggregation"] = {"numerator": 0, "denominator": 1}
+    mutations["claim_2"] = copy.deepcopy(results)
+    mutations["claim_2"]["claims"]["2"]["exhaustive_correlated_checks"] = 872
+    mutations["claim_3"] = copy.deepcopy(results)
+    mutations["claim_3"]["claims"]["3"]["rational_instance"]["ce_recovered_eta"][0] = {"numerator": 0, "denominator": 1}
+    mutations["claim_4"] = copy.deepcopy(results)
+    mutations["claim_4"]["claims"]["4"]["ce_risk_minimizer_u_j_star"] = {"numerator": 7, "denominator": 20}
+    mutations["claim_5"] = copy.deepcopy(results)
+    mutations["claim_5"]["claims"]["5"]["reported_values"]["picce_ce_error"] = {"numerator": 1517, "denominator": 100}
+    for name, tampered in mutations.items():
+        tampered_path = ARTIFACTS / f"negative_control_{name}.json"
+        tampered_path.write_text(json.dumps(tampered, indent=2, sort_keys=True) + "\n")
+        controls[name] = run_checker("verify.py", tampered_path)
+    (ARTIFACTS / "negative_control_output.json").write_text(json.dumps(controls, indent=2) + "\n")
+    if any(control["exit_code"] == 0 for control in controls.values()):
+        raise RuntimeError("a negative control incorrectly passed")
 
     elapsed = time.monotonic() - started
     environment = {
@@ -88,6 +99,7 @@ def main() -> None:
         "2": {"statement": "Lemma 4 partition sum equals union coverage for any permutation and x", "quantifier": "universal probability identity", "result": "VERIFIED"},
         "3": {"statement": "Theorem 2 continuity and Lemma 5 CE/OvA classifier consistency", "quantifier": "universal under the stated continuity/symmetry assumptions", "result": "VERIFIED"},
         "4": {"statement": "Theorem 6(A) CE score equals Acc_j* times V_tilde under Condition 1", "quantifier": "any x and minimizer satisfying Condition 1", "result": "FALSIFIED"},
+        "5": {"statement": "PiCCE has improved system error and higher coverage across expert counts on both real-world datasets", "quantifier": "every reported dataset, method family, and expert count", "result": "FALSIFIED"},
     }
     (ARTIFACTS / "claim_contract.json").write_text(json.dumps(contracts, indent=2) + "\n")
 
@@ -96,10 +108,12 @@ def main() -> None:
         "Claims 1–3: **VERIFIED** by algebraic/probability certificates.\n\n"
         "Claim 4 / Theorem 6(A): **FALSIFIED**. A Condition-1 distribution gives the CE optimum "
         "`u*_{j*}=2/5`, while the printed theorem gives `7/20`; exact gap `1/20`.\n\n"
-        "The verifier and independent checker exit 0. The tampered-evidence control exits nonzero. "
-        "This baseline does not address Claims 5–6 or claim dataset-level empirical performance.\n"
+        "Claim 5: **FALSIFIED AS PRINTED**. Table 2 reports MiceBone/two-expert CE error "
+        "`15.17` versus PiCCE-CE `15.23`, contradicting improved error at every count.\n\n"
+        "The verifier and independent checker exit 0. All five claim-specific tampered controls exit nonzero. "
+        "This source-table audit does not independently reproduce training and does not address Claim 6.\n"
     )
-    print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exit": negative["exit_code"], "runtime_seconds": elapsed}, indent=2))
+    print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()}, "runtime_seconds": elapsed}, indent=2))
     bundle = {path.name: path.read_text() for path in sorted(ARTIFACTS.iterdir())}
     print("ORX_ARTIFACT_BUNDLE_BEGIN")
     print(json.dumps(bundle, sort_keys=True))

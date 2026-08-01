@@ -155,6 +155,30 @@ def claim_4() -> dict:
     }
 
 
+def claim_5() -> dict:
+    vanilla_error = Fraction(1517, 100)
+    picce_error = Fraction(1523, 100)
+    vanilla_coverage = Fraction(6092, 100)
+    picce_coverage = Fraction(6928, 100)
+    if not picce_error > vanilla_error:
+        raise AssertionError("Table 2 counterexample did not contradict improved error")
+    return {
+        "verdict": "FALSIFIED",
+        "source_contract": "Section 6.2 says PiCCE achieves improved system error and higher coverage across different expert counts on MiceBone and Chaoyang.",
+        "source_table": "Table 2, MiceBone, CE family, #Exp=2",
+        "reported_values": {
+            "vanilla_ce_error": ratio(vanilla_error),
+            "picce_ce_error": ratio(picce_error),
+            "vanilla_ce_coverage": ratio(vanilla_coverage),
+            "picce_ce_coverage": ratio(picce_coverage),
+        },
+        "error_regression_percentage_points": ratio(picce_error - vanilla_error),
+        "coverage_improvement_percentage_points": ratio(picce_coverage - vanilla_coverage),
+        "contradiction": "PiCCE-CE coverage is higher, but its target system error is also 0.06 percentage points higher, so the conjunction 'improved system error and higher coverage across different numbers of experts' is false.",
+        "scope": "This falsifies the claim as printed from the paper's own reported mean. It does not assert that PiCCE is generally worse or independently reproduce the underlying training run.",
+    }
+
+
 def evaluate_theory() -> dict:
     return {
         "paper": "arXiv:2602.17144",
@@ -164,5 +188,6 @@ def evaluate_theory() -> dict:
             "2": claim_2(),
             "3": claim_3(),
             "4": claim_4(),
+            "5": claim_5(),
         },
     }

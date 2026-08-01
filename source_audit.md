@@ -22,6 +22,12 @@
    other expert `j` and every subset excluding `j,j*`, strictly greater union
    coverage after adding `j*` than after adding `j`. Theorem 6 quantifies over
    any `x` satisfying that condition and any risk minimizer.
+5. Section 6.2 says PiCCE has "improved system error and higher coverage
+   across different numbers of experts" on MiceBone and Chaoyang. Table 2's
+   MiceBone/two-expert CE row reports `(Err,Cov)=(15.17,60.92)` for vanilla
+   and `(15.23,69.28)` for PiCCE. The error component is worse, so the
+   printed conjunction and the imported "consistently outperforms" claim
+   have an explicit counterexample in the paper's own table.
 
 ## Theorem 6(A) source contradiction
 

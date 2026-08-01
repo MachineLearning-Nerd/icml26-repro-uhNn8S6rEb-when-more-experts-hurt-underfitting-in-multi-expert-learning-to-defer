@@ -12,3 +12,5 @@ uv run --frozen python run.py
 Research computation is run only on Hugging Face `cpu-upgrade`. The baseline
 performs exact theorem checks; descendants add dataset experiments without
 changing the command or dependency lock.
+
+Current evaluator entrypoint: [current verification](pages/current-verification.md).

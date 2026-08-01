@@ -46,6 +46,16 @@ def verify(results: dict) -> None:
     require(actual != printed, "Claim 4 contradiction")
     require(fraction(c4["absolute_contradiction"]) == Fraction(1, 20), "Claim 4 gap")
 
+    c5 = claims["5"]
+    require(c5["verdict"] == "FALSIFIED", "Claim 5 verdict")
+    values = c5["reported_values"]
+    vanilla_error = fraction(values["vanilla_ce_error"])
+    picce_error = fraction(values["picce_ce_error"])
+    require(vanilla_error == Fraction(1517, 100), "Claim 5 vanilla Table 2 cell")
+    require(picce_error == Fraction(1523, 100), "Claim 5 PiCCE Table 2 cell")
+    require(picce_error > vanilla_error, "Claim 5 error contradiction")
+    require(fraction(c5["error_regression_percentage_points"]) == Fraction(3, 50), "Claim 5 error gap")
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -56,7 +66,7 @@ def main() -> int:
     except (AssertionError, KeyError, ValueError) as error:
         print(f"FAIL: {error}")
         return 1
-    print("PASS: Claims 1-3 verified and Theorem 6(A) falsified; assumptions and exact fractions checked")
+    print("PASS: Claims 1-3 verified; Claims 4-5 falsified; assumptions, source cells, and exact fractions checked")
     return 0
 
 
