@@ -9,6 +9,7 @@ from pathlib import Path
 
 import torch
 
+from micebone import audit_micebone
 from theory import evaluate_theory
 
 
@@ -74,6 +75,10 @@ def main() -> None:
     (ARTIFACTS / "negative_control_output.json").write_text(json.dumps(controls, indent=2) + "\n")
     if any(control["exit_code"] == 0 for control in controls.values()):
         raise RuntimeError("a negative control incorrectly passed")
+
+    if config["stage"] == "micebone-data-audit":
+        inventory = audit_micebone(ROOT)
+        (ARTIFACTS / "micebone_inventory.json").write_text(json.dumps(inventory, indent=2) + "\n")
 
     elapsed = time.monotonic() - started
     environment = {
