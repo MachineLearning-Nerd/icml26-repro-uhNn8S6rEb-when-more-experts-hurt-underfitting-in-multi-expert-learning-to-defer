@@ -1,5 +1,5 @@
 {
-  "stage": "micebone-annotation-audit",
+  "stage": "micebone-target-audit",
   "seed": 260217144,
   "estimated_cores": 4,
   "selected_flavor": "cpu-upgrade",

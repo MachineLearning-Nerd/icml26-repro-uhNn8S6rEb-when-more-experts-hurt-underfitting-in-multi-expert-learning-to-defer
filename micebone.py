@@ -152,3 +152,103 @@ def inspect_annotations(root: Path) -> dict:
         "complete_annotators": sorted(full_annotators, key=lambda row: row["name"]),
         "privacy": "user_mail fields were neither copied nor emitted",
     }
+
+
+def majority(counter: Counter) -> tuple[str, bool]:
+    highest = max(counter.values())
+    winners = sorted(label for label, count in counter.items() if count == highest)
+    return winners[0], len(winners) > 1
+
+
+def resolve_targets(root: Path) -> dict:
+    archive = root / "data" / "MiceBone.zip"
+    with zipfile.ZipFile(archive) as zipped:
+        records = json.loads(zipped.read("MiceBone/annotations.json"))
+
+    all_votes = {}
+    full_votes = {}
+    partial_votes = {}
+    complete = []
+    for record in records:
+        annotations = record.get("annotations", [])
+        is_complete = len({row["image_path"] for row in annotations}) == 7240
+        if is_complete:
+            complete.append(record)
+        for row in annotations:
+            path = row["image_path"]
+            label = row["class_label"]
+            all_votes.setdefault(path, Counter())[label] += 1
+            target = full_votes if is_complete else partial_votes
+            target.setdefault(path, Counter())[label] += 1
+
+    paths = sorted(all_votes)
+    target_sets = {
+        "filename": {path: image_label(path) for path in paths},
+        "all_majority": {path: majority(all_votes[path])[0] for path in paths},
+        "complete_annotator_majority": {path: majority(full_votes[path])[0] for path in paths},
+        "partial_annotator_majority": {path: majority(partial_votes[path])[0] for path in paths},
+    }
+    split_paths = {
+        "train": [path for path in paths if image_fold(path) != "fold5"],
+        "test": [path for path in paths if image_fold(path) == "fold5"],
+    }
+    paper_order = ["047", "290", "533", "534", "580", "581", "966", "745"]
+    expected_train = [84.64, 85.01, 87.43, 88.13, 81.73, 85.96, 87.05, 85.45]
+    expected_test = [84.64, 84.71, 86.33, 85.68, 79.59, 84.64, 87.88, 84.90]
+    complete_by_id = {
+        "".join(character for character in str(record["name"]) if character.isdigit()).zfill(3): record
+        for record in complete
+    }
+    experts = []
+    for index, expert_id in enumerate(paper_order):
+        record = complete_by_id[expert_id]
+        predictions = {row["image_path"]: row["class_label"] for row in record["annotations"]}
+        metrics = {}
+        for split, selected_paths in split_paths.items():
+            for target_name, targets in target_sets.items():
+                correct = sum(predictions[path] == targets[path] for path in selected_paths)
+                metrics[f"{split}_{target_name}_accuracy_percent"] = 100 * correct / len(selected_paths)
+
+            loo_majority_correct = 0
+            loo_complete_correct = 0
+            empirical_agreement = 0.0
+            loo_empirical_agreement = 0.0
+            for path in selected_paths:
+                predicted = predictions[path]
+                all_without = all_votes[path].copy()
+                all_without[predicted] -= 1
+                if all_without[predicted] == 0:
+                    del all_without[predicted]
+                full_without = full_votes[path].copy()
+                full_without[predicted] -= 1
+                if full_without[predicted] == 0:
+                    del full_without[predicted]
+                loo_majority_correct += predicted == majority(all_without)[0]
+                loo_complete_correct += predicted == majority(full_without)[0]
+                empirical_agreement += all_votes[path][predicted] / sum(all_votes[path].values())
+                loo_empirical_agreement += all_without[predicted] / sum(all_without.values())
+            metrics[f"{split}_leave_one_out_all_majority_accuracy_percent"] = 100 * loo_majority_correct / len(selected_paths)
+            metrics[f"{split}_leave_one_out_complete_majority_accuracy_percent"] = 100 * loo_complete_correct / len(selected_paths)
+            metrics[f"{split}_empirical_draw_expected_accuracy_percent"] = 100 * empirical_agreement / len(selected_paths)
+            metrics[f"{split}_leave_one_out_empirical_draw_expected_accuracy_percent"] = 100 * loo_empirical_agreement / len(selected_paths)
+
+        experts.append(
+            {
+                "expert_id": expert_id,
+                "paper_train_accuracy_percent": expected_train[index],
+                "paper_test_accuracy_percent": expected_test[index],
+                "candidate_target_metrics": metrics,
+            }
+        )
+
+    annotation_counts = Counter(sum(counter.values()) for counter in all_votes.values())
+    return {
+        "image_count": len(paths),
+        "per_image_annotation_count_histogram": {str(key): value for key, value in sorted(annotation_counts.items())},
+        "filename_vs_all_majority_agreement_percent": 100 * sum(target_sets["filename"][path] == target_sets["all_majority"][path] for path in paths) / len(paths),
+        "all_majority_tie_count": sum(majority(all_votes[path])[1] for path in paths),
+        "partial_majority_tie_count": sum(majority(partial_votes[path])[1] for path in paths),
+        "complete_majority_tie_count": sum(majority(full_votes[path])[1] for path in paths),
+        "experts": experts,
+        "privacy": "user_mail fields were neither copied nor emitted",
+    }
