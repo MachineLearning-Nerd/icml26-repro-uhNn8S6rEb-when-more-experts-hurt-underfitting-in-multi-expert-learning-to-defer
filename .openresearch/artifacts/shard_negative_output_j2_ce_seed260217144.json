@@ -1,0 +1,6 @@
+{
+  "command": "python verify_shard.py .openresearch/artifacts/shard_negative_j2_ce_seed260217144.json",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/repo/verify_shard.py\", line 30, in <module>\n    main()\n  File \"/repo/verify_shard.py\", line 23, in main\n    assert row[\"samples\"] == 1543\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}
