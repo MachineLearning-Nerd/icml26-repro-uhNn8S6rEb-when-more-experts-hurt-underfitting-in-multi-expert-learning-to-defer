@@ -1,0 +1,109 @@
+{
+  "campaign_project_id": "45b8786c-df14-44dd-842d-4263acd20fc2",
+  "started_at_utc": "2026-08-01T08:22:09.759000+00:00",
+  "reason": "The original 48 jobs were canceled by Hugging Face with NO_CREDITS before any accepted artifact bundle completed.",
+  "protocol_change": false,
+  "scheduling_change": "Run the same committed cells in batches of eight instead of launching all 48 concurrently.",
+  "scheduling_rationale": "The bounded batch reduces platform contention while retaining the exact preregistered code, data, command, seed, flavor, image, and one-day timeout.",
+  "expected_cells": 48,
+  "batch_size": 8,
+  "batches": [
+    {
+      "batch": 1,
+      "submission_window_utc": {
+        "first_created": "2026-08-01T08:22:09.759000+00:00",
+        "last_created": "2026-08-01T08:22:51.676000+00:00"
+      },
+      "initial_verification": {
+        "checked_at_utc": "2026-08-01T08:24:03+00:00",
+        "matched_jobs": 8,
+        "status_counts": {
+          "RUNNING": 8
+        },
+        "flavor": "cpu-upgrade"
+      },
+      "cells": [
+        {
+          "j": 2,
+          "method": "ce",
+          "seed": 260217144,
+          "experiment_id": "ee35ef1d-02cf-4dd6-95b3-183fefc987fc",
+          "prior_run_id": "14afe596-37bc-4692-86cd-55735798ad46",
+          "prior_job_id": "6a6d95326b79c09949c1e1e1",
+          "run_id": "ae3691c2-7d65-4578-b6eb-67115700f7e3",
+          "job_id": "6a6dacb16b79c09949c1e317"
+        },
+        {
+          "j": 2,
+          "method": "ce",
+          "seed": 260217145,
+          "experiment_id": "b4b32440-d307-4970-a135-b91b47bc13ce",
+          "prior_run_id": "2a74fadb-8c7c-4310-913f-398a261b291a",
+          "prior_job_id": "6a6d95746b79c09949c1e1e5",
+          "run_id": "6c54f325-fd88-49ce-a1ab-df93706e71a6",
+          "job_id": "6a6daccea00abefd4b28b19c"
+        },
+        {
+          "j": 2,
+          "method": "ce",
+          "seed": 260217146,
+          "experiment_id": "06051f55-8423-4e7b-87de-d654ff7018be",
+          "prior_run_id": "b3732615-44fd-4b89-8e6a-763161d3bc99",
+          "prior_job_id": "6a6d957ca00abefd4b28af58",
+          "run_id": "7baa4e65-0475-4b5e-a755-fbe70e5301ef",
+          "job_id": "6a6dacd0a00abefd4b28b19e"
+        },
+        {
+          "j": 2,
+          "method": "picce_ce",
+          "seed": 260217144,
+          "experiment_id": "34a5571f-9868-415a-bf48-5c446d8e6672",
+          "prior_run_id": "d6d0b931-3901-4c50-9a39-6ed8ca5ed91e",
+          "prior_job_id": "6a6d95846b79c09949c1e1e9",
+          "run_id": "250bcb25-6b4e-4b68-8cfa-813aa6fd3aa3",
+          "job_id": "6a6dacd36b79c09949c1e31b"
+        },
+        {
+          "j": 2,
+          "method": "picce_ce",
+          "seed": 260217145,
+          "experiment_id": "aebbd52a-2a1b-4531-bf0d-5fa4dcdf5a94",
+          "prior_run_id": "d0e6d2ae-6695-47c0-810e-994aca57ca59",
+          "prior_job_id": "6a6d958ba00abefd4b28af5a",
+          "run_id": "53a9403e-9f12-400f-8e42-cb3aa1b82e05",
+          "job_id": "6a6dacd5a00abefd4b28b1a0"
+        },
+        {
+          "j": 2,
+          "method": "picce_ce",
+          "seed": 260217146,
+          "experiment_id": "ca34c033-33d9-45f9-835d-6b2d5795f057",
+          "prior_run_id": "3e3c558a-f48d-4532-9422-38a607a813af",
+          "prior_job_id": "6a6d9593a00abefd4b28af5e",
+          "run_id": "dc388e56-3d16-4089-be95-bb7dd9ff787d",
+          "job_id": "6a6dacd7a00abefd4b28b1a2"
+        },
+        {
+          "j": 2,
+          "method": "ova",
+          "seed": 260217144,
+          "experiment_id": "dda2471c-8bf1-407d-a3f2-e884a65bbb28",
+          "prior_run_id": "61d2e1f0-9deb-401f-ae9a-7fd84161a429",
+          "prior_job_id": "6a6d95bfa00abefd4b28af60",
+          "run_id": "532c660b-a894-4ee5-8287-e8fd39160a06",
+          "job_id": "6a6dacd9a00abefd4b28b1a4"
+        },
+        {
+          "j": 2,
+          "method": "ova",
+          "seed": 260217145,
+          "experiment_id": "47f0876e-75df-4a8d-aca5-495dd7ca0d2f",
+          "prior_run_id": "139853b1-da82-49e7-8374-5d81b32d51c7",
+          "prior_job_id": "6a6d95c76b79c09949c1e1ed",
+          "run_id": "94d5aa89-36c2-4e73-b2ce-8b7d4338a3a5",
+          "job_id": "6a6dacdba00abefd4b28b1a6"
+        }
+      ]
+    }
+  ]
+}
