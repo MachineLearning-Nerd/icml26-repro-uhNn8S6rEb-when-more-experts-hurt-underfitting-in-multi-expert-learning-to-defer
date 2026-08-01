@@ -251,33 +251,37 @@ def resolve_targets(root: Path) -> dict:
 
     annotation_counts = Counter(sum(counter.values()) for counter in all_votes.values())
     tie_rules = []
-    for priority in itertools.permutations(["g", "nr", "ug"]):
-        targets = {path: majority_with_priority(all_votes[path], priority) for path in paths}
-        deviations = []
-        rounded_matches = 0
-        rule_experts = []
-        for index, expert_id in enumerate(paper_order):
-            record = complete_by_id[expert_id]
-            predictions = {row["image_path"]: row["class_label"] for row in record["annotations"]}
-            row = {"expert_id": expert_id}
-            for split, expected in [("train", expected_train[index]), ("test", expected_test[index])]:
-                selected_paths = split_paths[split]
-                accuracy = 100 * sum(predictions[path] == targets[path] for path in selected_paths) / len(selected_paths)
-                row[f"{split}_accuracy_percent"] = accuracy
-                row[f"paper_{split}_accuracy_percent"] = expected
-                deviations.append(abs(accuracy - expected))
-                rounded_matches += round(accuracy, 2) == expected
-            rule_experts.append(row)
-        tie_rules.append(
-            {
-                "priority": list(priority),
-                "mean_absolute_error_percentage_points": sum(deviations) / len(deviations),
-                "maximum_absolute_error_percentage_points": max(deviations),
-                "exact_rounded_matches_out_of_16": rounded_matches,
-                "experts": rule_experts,
-            }
-        )
-    tie_rules.sort(key=lambda row: (row["mean_absolute_error_percentage_points"], row["priority"]))
+    for vote_pool_name, vote_pool in [("all_annotations", all_votes), ("complete_annotators", full_votes)]:
+        for priority in itertools.permutations(["g", "nr", "ug"]):
+            targets = {path: majority_with_priority(vote_pool[path], priority) for path in paths}
+            deviations = []
+            rounded_matches = 0
+            rule_experts = []
+            for index, expert_id in enumerate(paper_order):
+                record = complete_by_id[expert_id]
+                predictions = {row["image_path"]: row["class_label"] for row in record["annotations"]}
+                row = {"expert_id": expert_id}
+                for split, expected in [("train", expected_train[index]), ("test", expected_test[index])]:
+                    selected_paths = split_paths[split]
+                    accuracy = 100 * sum(predictions[path] == targets[path] for path in selected_paths) / len(selected_paths)
+                    row[f"{split}_accuracy_percent"] = accuracy
+                    row[f"paper_{split}_accuracy_percent"] = expected
+                    deviations.append(abs(accuracy - expected))
+                    rounded_matches += round(accuracy, 2) == expected
+                rule_experts.append(row)
+            tie_rules.append(
+                {
+                    "vote_pool": vote_pool_name,
+                    "priority": list(priority),
+                    "mean_absolute_error_percentage_points": sum(deviations) / len(deviations),
+                    "maximum_absolute_error_percentage_points": max(deviations),
+                    "exact_rounded_matches_out_of_16": rounded_matches,
+                    "experts": rule_experts,
+                }
+            )
+    tie_rules.sort(
+        key=lambda row: (row["mean_absolute_error_percentage_points"], row["vote_pool"], row["priority"])
+    )
     return {
         "image_count": len(paths),
         "per_image_annotation_count_histogram": {str(key): value for key, value in sorted(annotation_counts.items())},
