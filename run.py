@@ -9,6 +9,7 @@ from pathlib import Path
 
 import torch
 
+from aggregate_claim6 import aggregate_claim6
 from micebone import audit_micebone, inspect_annotations, resolve_targets
 from micebone_train import effective_cpu_count, run_micebone_training
 from theory import evaluate_theory
@@ -77,7 +78,7 @@ def main() -> None:
     if any(control["exit_code"] == 0 for control in controls.values()):
         raise RuntimeError("a negative control incorrectly passed")
 
-    if config["stage"].startswith("micebone-"):
+    if config["stage"].startswith("micebone-") and config["stage"] != "micebone-claim6-aggregate":
         inventory = audit_micebone(ROOT)
         (ARTIFACTS / "micebone_inventory.json").write_text(json.dumps(inventory, indent=2) + "\n")
     if config["stage"] == "micebone-annotation-audit":
@@ -87,6 +88,10 @@ def main() -> None:
         targets = resolve_targets(ROOT)
         (ARTIFACTS / "micebone_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
     shard_name = None
+    claim6_result = None
+    claim6_verifier = None
+    claim6_independent = None
+    claim6_control = None
     if config["stage"] == "micebone-training-calibration":
         calibration = run_micebone_training(ROOT, config)
         (ARTIFACTS / "micebone_calibration.json").write_text(json.dumps(calibration, indent=2) + "\n")
@@ -110,6 +115,24 @@ def main() -> None:
         (ARTIFACTS / f"shard_negative_output_{shard_name}.json").write_text(json.dumps(shard_control, indent=2) + "\n")
         if shard_control["exit_code"] == 0:
             raise RuntimeError("training shard negative control incorrectly passed")
+    if config["stage"] == "micebone-claim6-aggregate":
+        claim6_result = aggregate_claim6(ARTIFACTS)
+        claim6_path = ARTIFACTS / "claim6_results.json"
+        claim6_path.write_text(json.dumps(claim6_result, indent=2, sort_keys=True) + "\n")
+        claim6_verifier = run_checker("verify_claim6.py", claim6_path)
+        claim6_independent = run_checker("independent_claim6_check.py", claim6_path)
+        (ARTIFACTS / "claim6_verifier_output.json").write_text(json.dumps(claim6_verifier, indent=2) + "\n")
+        (ARTIFACTS / "claim6_independent_output.json").write_text(json.dumps(claim6_independent, indent=2) + "\n")
+        if claim6_verifier["exit_code"] != 0 or claim6_independent["exit_code"] != 0:
+            raise RuntimeError("Claim 6 aggregate failed positive verification")
+        tampered = copy.deepcopy(claim6_result)
+        tampered["rows"][0]["classifier_accuracy_percent"] += 1.0
+        tampered_path = ARTIFACTS / "claim6_negative_control.json"
+        tampered_path.write_text(json.dumps(tampered, indent=2, sort_keys=True) + "\n")
+        claim6_control = run_checker("verify_claim6.py", tampered_path)
+        (ARTIFACTS / "claim6_negative_control_output.json").write_text(json.dumps(claim6_control, indent=2) + "\n")
+        if claim6_control["exit_code"] == 0:
+            raise RuntimeError("Claim 6 tampered aggregate incorrectly passed")
     if "claim6_contract" in config:
         (ARTIFACTS / "claim6_contract.json").write_text(json.dumps(config["claim6_contract"], indent=2) + "\n")
     for name in ["method.md", "source_audit.md"]:
@@ -143,10 +166,17 @@ def main() -> None:
         "3": {"statement": "Theorem 2 continuity and Lemma 5 CE/OvA classifier consistency", "quantifier": "universal under the stated continuity/symmetry assumptions", "result": "VERIFIED"},
         "4": {"statement": "Theorem 6(A) CE score equals Acc_j* times V_tilde under Condition 1", "quantifier": "any x and minimizer satisfying Condition 1", "result": "FALSIFIED"},
         "5": {"statement": "PiCCE has improved system error and higher coverage across expert counts on both real-world datasets", "quantifier": "every reported dataset, method family, and expert count", "result": "FALSIFIED"},
-        "6": {"statement": "On MiceBone, vanilla classifier accuracy drops as J increases while PiCCE remains stable", "quantifier": "CE and OvA families at J in {2,4,6,8}, averaged over three trials", "result": "BLOCKED"},
+        "6": {"statement": "On MiceBone, vanilla classifier accuracy drops as J increases while PiCCE remains stable", "quantifier": "CE and OvA families at J in {2,4,6,8}, averaged over three trials", "result": claim6_result["verdict"] if claim6_result else "BLOCKED"},
     }
     (ARTIFACTS / "claim_contract.json").write_text(json.dumps(contracts, indent=2) + "\n")
 
+    claim6_summary = (
+        f"Claim 6: **{claim6_result['verdict']}** under the preregistered MiceBone contract. "
+        "The exact 48-shard grid, final-epoch seed means, paired differences, descriptive 95% t intervals, "
+        "independent recomputation, and failing tampered control are included.\n"
+        if claim6_result
+        else "Claim 6's full-data decision rule is preregistered; no training result is accepted at this stage.\n"
+    )
     (ARTIFACTS / "EVAL.md").write_text(
         "# Baseline evaluation\n\n"
         "Claims 1–3: **VERIFIED** by algebraic/probability certificates.\n\n"
@@ -155,9 +185,22 @@ def main() -> None:
         "Claim 5: **FALSIFIED AS PRINTED**. Table 2 reports MiceBone/two-expert CE error "
         "`15.17` versus PiCCE-CE `15.23`, contradicting improved error at every count.\n\n"
         "The verifier and independent checker exit 0. All five claim-specific tampered controls exit nonzero. "
-        "Claim 6's full-data decision rule is preregistered; no training result is accepted at this stage.\n"
+        + claim6_summary
     )
-    print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()}, "runtime_seconds": elapsed}, indent=2))
+    summary = {
+        "verifier": verifier["stdout"].strip(),
+        "independent": independent["stdout"].strip(),
+        "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()},
+        "runtime_seconds": elapsed,
+    }
+    if claim6_result:
+        summary["claim6"] = {
+            "verdict": claim6_result["verdict"],
+            "verifier_exit": claim6_verifier["exit_code"],
+            "independent_exit": claim6_independent["exit_code"],
+            "negative_control_exit": claim6_control["exit_code"],
+        }
+    print(json.dumps(summary, indent=2))
     bundle = {path.name: path.read_text() for path in sorted(ARTIFACTS.iterdir())}
     print("ORX_ARTIFACT_BUNDLE_BEGIN")
     print(json.dumps(bundle, sort_keys=True))

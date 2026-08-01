@@ -1,0 +1,474 @@
+{
+  "paper": "2602.17144",
+  "openreview_id": "uhNn8S6rEb",
+  "project_id": "45b8786c-df14-44dd-842d-4263acd20fc2",
+  "fixed_contract": {
+    "dataset": "MiceBone Zenodo 8115942",
+    "split": "paper folds 1-4 train, fold 5 test",
+    "target": "complete-annotator plurality; tie priority g>ug>nr",
+    "architecture": "ResNet-18",
+    "optimizer": "AdamW(lr=3e-4, weight_decay=5e-4)",
+    "batch_size": 128,
+    "epochs": 100,
+    "expert_counts": [
+      2,
+      4,
+      6,
+      8
+    ],
+    "methods": [
+      "ce",
+      "picce_ce",
+      "ova",
+      "picce_ova"
+    ],
+    "seeds": [
+      260217144,
+      260217145,
+      260217146
+    ],
+    "compute": "Hugging Face cpu-upgrade; no GPU",
+    "command": "uv run --frozen python run.py"
+  },
+  "integrity": {
+    "shard_count": 48,
+    "unique_cells": 48,
+    "unique_experiments": 48,
+    "unique_runs": 48,
+    "unique_jobs": 48
+  },
+  "shards": [
+    {
+      "j": 2,
+      "method": "ce",
+      "seed": 260217144,
+      "experiment_id": "ee35ef1d-02cf-4dd6-95b3-183fefc987fc",
+      "branch": "orx/micebone-j2-ce-seed-260217144",
+      "run_id": "14afe596-37bc-4692-86cd-55735798ad46",
+      "job_id": "6a6d95326b79c09949c1e1e1"
+    },
+    {
+      "j": 2,
+      "method": "ce",
+      "seed": 260217145,
+      "experiment_id": "b4b32440-d307-4970-a135-b91b47bc13ce",
+      "branch": "orx/micebone-j2-ce-seed-260217145",
+      "run_id": "2a74fadb-8c7c-4310-913f-398a261b291a",
+      "job_id": "6a6d95746b79c09949c1e1e5"
+    },
+    {
+      "j": 2,
+      "method": "ce",
+      "seed": 260217146,
+      "experiment_id": "06051f55-8423-4e7b-87de-d654ff7018be",
+      "branch": "orx/micebone-j2-ce-seed-260217146",
+      "run_id": "b3732615-44fd-4b89-8e6a-763161d3bc99",
+      "job_id": "6a6d957ca00abefd4b28af58"
+    },
+    {
+      "j": 2,
+      "method": "picce_ce",
+      "seed": 260217144,
+      "experiment_id": "34a5571f-9868-415a-bf48-5c446d8e6672",
+      "branch": "orx/micebone-j2-picce-ce-seed-260217144",
+      "run_id": "d6d0b931-3901-4c50-9a39-6ed8ca5ed91e",
+      "job_id": "6a6d95846b79c09949c1e1e9"
+    },
+    {
+      "j": 2,
+      "method": "picce_ce",
+      "seed": 260217145,
+      "experiment_id": "aebbd52a-2a1b-4531-bf0d-5fa4dcdf5a94",
+      "branch": "orx/micebone-j2-picce-ce-seed-260217145",
+      "run_id": "d0e6d2ae-6695-47c0-810e-994aca57ca59",
+      "job_id": "6a6d958ba00abefd4b28af5a"
+    },
+    {
+      "j": 2,
+      "method": "picce_ce",
+      "seed": 260217146,
+      "experiment_id": "ca34c033-33d9-45f9-835d-6b2d5795f057",
+      "branch": "orx/micebone-j2-picce-ce-seed-260217146",
+      "run_id": "3e3c558a-f48d-4532-9422-38a607a813af",
+      "job_id": "6a6d9593a00abefd4b28af5e"
+    },
+    {
+      "j": 2,
+      "method": "ova",
+      "seed": 260217144,
+      "experiment_id": "dda2471c-8bf1-407d-a3f2-e884a65bbb28",
+      "branch": "orx/micebone-j2-ova-seed-260217144",
+      "run_id": "61d2e1f0-9deb-401f-ae9a-7fd84161a429",
+      "job_id": "6a6d95bfa00abefd4b28af60"
+    },
+    {
+      "j": 2,
+      "method": "ova",
+      "seed": 260217145,
+      "experiment_id": "47f0876e-75df-4a8d-aca5-495dd7ca0d2f",
+      "branch": "orx/micebone-j2-ova-seed-260217145",
+      "run_id": "139853b1-da82-49e7-8374-5d81b32d51c7",
+      "job_id": "6a6d95c76b79c09949c1e1ed"
+    },
+    {
+      "j": 2,
+      "method": "ova",
+      "seed": 260217146,
+      "experiment_id": "9feabbb0-47f6-4cc7-a98d-48e33e70a391",
+      "branch": "orx/micebone-j2-ova-seed-260217146",
+      "run_id": "72063d54-3733-45c6-ac2a-767150637840",
+      "job_id": "6a6d95cf6b79c09949c1e1ef"
+    },
+    {
+      "j": 2,
+      "method": "picce_ova",
+      "seed": 260217144,
+      "experiment_id": "df6d4caf-ff81-40c8-b3b0-0a6a4df89e18",
+      "branch": "orx/micebone-j2-picce-ova-seed-260217144",
+      "run_id": "9f56bbac-b4ba-4db2-b09b-6a1885ec9faf",
+      "job_id": "6a6d95d6a00abefd4b28af62"
+    },
+    {
+      "j": 2,
+      "method": "picce_ova",
+      "seed": 260217145,
+      "experiment_id": "34b06a91-8da1-4e13-b69f-64f0826348d0",
+      "branch": "orx/micebone-j2-picce-ova-seed-260217145",
+      "run_id": "c8d76f0a-3017-40c2-b279-6d440d3aef45",
+      "job_id": "6a6d95dea00abefd4b28af64"
+    },
+    {
+      "j": 2,
+      "method": "picce_ova",
+      "seed": 260217146,
+      "experiment_id": "3c045810-a251-415e-a53d-fc9a94f21754",
+      "branch": "orx/micebone-j2-picce-ova-seed-260217146",
+      "run_id": "b17b864b-7165-4cf3-a5e3-a91c4d6d2bbe",
+      "job_id": "6a6d95e56b79c09949c1e1f1"
+    },
+    {
+      "j": 4,
+      "method": "ce",
+      "seed": 260217144,
+      "experiment_id": "ba456cc8-6725-40ff-9e53-0acd3b00c219",
+      "branch": "orx/micebone-j4-ce-seed-260217144",
+      "run_id": "f62dee7f-8d94-4c51-b8a5-8cf7e1a312fc",
+      "job_id": "6a6d95ed6b79c09949c1e1f3"
+    },
+    {
+      "j": 4,
+      "method": "ce",
+      "seed": 260217145,
+      "experiment_id": "4005c6ef-0184-4da5-8a13-74f039cf2f2e",
+      "branch": "orx/micebone-j4-ce-seed-260217145",
+      "run_id": "06b00ebb-70ed-46a4-9be0-ceec56038fcd",
+      "job_id": "6a6d96176b79c09949c1e1f9"
+    },
+    {
+      "j": 4,
+      "method": "ce",
+      "seed": 260217146,
+      "experiment_id": "daede568-2c22-4533-8374-721633c651ec",
+      "branch": "orx/micebone-j4-ce-seed-260217146",
+      "run_id": "b42eb5cd-af5e-4cb5-96f8-27e0520b3c5e",
+      "job_id": "6a6d961e6b79c09949c1e1fd"
+    },
+    {
+      "j": 4,
+      "method": "picce_ce",
+      "seed": 260217144,
+      "experiment_id": "aef40ccb-70f9-45c1-9a65-0f347eb2b6e2",
+      "branch": "orx/micebone-j4-picce-ce-seed-260217144",
+      "run_id": "df0919a3-a6f1-49e9-820c-53f094ae566c",
+      "job_id": "6a6d9626a00abefd4b28af72"
+    },
+    {
+      "j": 4,
+      "method": "picce_ce",
+      "seed": 260217145,
+      "experiment_id": "9f0ff72a-7ddd-4122-9069-fed611d0ca4d",
+      "branch": "orx/micebone-j4-picce-ce-seed-260217145",
+      "run_id": "e09265b7-d917-4713-aa68-e1435abd187a",
+      "job_id": "6a6d962d6b79c09949c1e201"
+    },
+    {
+      "j": 4,
+      "method": "picce_ce",
+      "seed": 260217146,
+      "experiment_id": "2600b539-e4ce-4bc0-a3f8-6a63bcedcb73",
+      "branch": "orx/micebone-j4-picce-ce-seed-260217146",
+      "run_id": "c5ea51da-d724-490f-bccf-7b84045bcf3c",
+      "job_id": "6a6d96356b79c09949c1e203"
+    },
+    {
+      "j": 4,
+      "method": "ova",
+      "seed": 260217144,
+      "experiment_id": "98b2b9aa-8947-4fe0-a90b-83192b62bdba",
+      "branch": "orx/micebone-j4-ova-seed-260217144",
+      "run_id": "20bd7ef4-f8f1-4fe7-95b3-7c60d8196b56",
+      "job_id": "6a6d963da00abefd4b28af74"
+    },
+    {
+      "j": 4,
+      "method": "ova",
+      "seed": 260217145,
+      "experiment_id": "5e71e27a-5c37-4e93-8219-4bf857f1bbef",
+      "branch": "orx/micebone-j4-ova-seed-260217145",
+      "run_id": "f4de4908-6b64-4661-b293-e251a39d05d9",
+      "job_id": "6a6d964c6b79c09949c1e207"
+    },
+    {
+      "j": 4,
+      "method": "ova",
+      "seed": 260217146,
+      "experiment_id": "6ba0b620-182f-42b9-94de-e35039d6df0b",
+      "branch": "orx/micebone-j4-ova-seed-260217146",
+      "run_id": "c410fa1d-da06-4573-b132-1e27f5c80ffb",
+      "job_id": "6a6d96766b79c09949c1e209"
+    },
+    {
+      "j": 4,
+      "method": "picce_ova",
+      "seed": 260217144,
+      "experiment_id": "f1319356-1399-402b-98a7-455a9413d7b8",
+      "branch": "orx/micebone-j4-picce-ova-seed-260217144",
+      "run_id": "4e4959cb-577e-4295-9341-2eca60cd9542",
+      "job_id": "6a6d967da00abefd4b28af76"
+    },
+    {
+      "j": 4,
+      "method": "picce_ova",
+      "seed": 260217145,
+      "experiment_id": "b308d04b-96f2-46df-a05f-273c7a5a74d1",
+      "branch": "orx/micebone-j4-picce-ova-seed-260217145",
+      "run_id": "a04a3481-affd-496d-bf20-d4b3b9c56acb",
+      "job_id": "6a6d96856b79c09949c1e20b"
+    },
+    {
+      "j": 4,
+      "method": "picce_ova",
+      "seed": 260217146,
+      "experiment_id": "d5dc97b9-40cd-4d17-a0a2-161db84a78a9",
+      "branch": "orx/micebone-j4-picce-ova-seed-260217146",
+      "run_id": "a17c13ca-881e-4984-a462-97c62318f696",
+      "job_id": "6a6d96eea00abefd4b28af79"
+    },
+    {
+      "j": 6,
+      "method": "ce",
+      "seed": 260217144,
+      "experiment_id": "4e829604-ca9b-402b-8ea6-c806c9a1f152",
+      "branch": "orx/micebone-j6-ce-seed-260217144",
+      "run_id": "b245e36f-ba20-4151-8808-0eafa5a4da8b",
+      "job_id": "6a6d96f66b79c09949c1e20f"
+    },
+    {
+      "j": 6,
+      "method": "ce",
+      "seed": 260217145,
+      "experiment_id": "1134505c-e7c8-4637-bc40-062a20cef2da",
+      "branch": "orx/micebone-j6-ce-seed-260217145",
+      "run_id": "879f10a9-5c31-4e6f-86c5-17d511278047",
+      "job_id": "6a6d96fda00abefd4b28af7b"
+    },
+    {
+      "j": 6,
+      "method": "ce",
+      "seed": 260217146,
+      "experiment_id": "e36530a3-8327-4edb-b133-ad0204d8768a",
+      "branch": "orx/micebone-j6-ce-seed-260217146",
+      "run_id": "93bff13a-eee9-43e8-bb5a-1d28b1c5d018",
+      "job_id": "6a6d97056b79c09949c1e213"
+    },
+    {
+      "j": 6,
+      "method": "picce_ce",
+      "seed": 260217144,
+      "experiment_id": "4051d0f5-5fa5-4fa7-a554-66fb34d8086d",
+      "branch": "orx/micebone-j6-picce-ce-seed-260217144",
+      "run_id": "2d4f28f9-9cb3-40ff-b03d-48058ea34920",
+      "job_id": "6a6d970ca00abefd4b28af7d"
+    },
+    {
+      "j": 6,
+      "method": "picce_ce",
+      "seed": 260217145,
+      "experiment_id": "79ecefd9-3bf7-46ae-b270-b863027a2355",
+      "branch": "orx/micebone-j6-picce-ce-seed-260217145",
+      "run_id": "3a420ca6-13a5-48be-bc0b-d73811e778b6",
+      "job_id": "6a6d97146b79c09949c1e215"
+    },
+    {
+      "j": 6,
+      "method": "picce_ce",
+      "seed": 260217146,
+      "experiment_id": "3b438185-cf72-4253-a3e3-f9e3c1a0b45b",
+      "branch": "orx/micebone-j6-picce-ce-seed-260217146",
+      "run_id": "b2eace52-532d-49a5-a557-ce7430f04e11",
+      "job_id": "6a6d971ba00abefd4b28af7f"
+    },
+    {
+      "j": 6,
+      "method": "ova",
+      "seed": 260217144,
+      "experiment_id": "798bd3b0-aa42-4707-a780-9e6311330991",
+      "branch": "orx/micebone-j6-ova-seed-260217144",
+      "run_id": "a9623f4d-8b8f-4972-8859-20d6ccf6b171",
+      "job_id": "6a6d9723a00abefd4b28af81"
+    },
+    {
+      "j": 6,
+      "method": "ova",
+      "seed": 260217145,
+      "experiment_id": "e29a0c25-3bca-44b3-b9c0-845d66efae3c",
+      "branch": "orx/micebone-j6-ova-seed-260217145",
+      "run_id": "278dcad1-cce0-4740-bea3-3ae3f9876c4d",
+      "job_id": "6a6d97436b79c09949c1e21d"
+    },
+    {
+      "j": 6,
+      "method": "ova",
+      "seed": 260217146,
+      "experiment_id": "9935cb5e-a1c5-4320-91c2-c2bc5f2ca013",
+      "branch": "orx/micebone-j6-ova-seed-260217146",
+      "run_id": "e4762358-da31-43d8-a522-97b5047732a0",
+      "job_id": "6a6d974b6b79c09949c1e221"
+    },
+    {
+      "j": 6,
+      "method": "picce_ova",
+      "seed": 260217144,
+      "experiment_id": "f5b980b3-b227-4ebe-ba7e-c9f68a565b9d",
+      "branch": "orx/micebone-j6-picce-ova-seed-260217144",
+      "run_id": "1b82e2b5-e24e-477c-af05-0ccbfd688759",
+      "job_id": "6a6d9752a00abefd4b28af97"
+    },
+    {
+      "j": 6,
+      "method": "picce_ova",
+      "seed": 260217145,
+      "experiment_id": "f03fd5b4-c9e8-4ee4-9a9b-c4c69b140565",
+      "branch": "orx/micebone-j6-picce-ova-seed-260217145",
+      "run_id": "a5e3f143-4a6b-4062-a8a7-fa951aa15762",
+      "job_id": "6a6d97596b79c09949c1e229"
+    },
+    {
+      "j": 6,
+      "method": "picce_ova",
+      "seed": 260217146,
+      "experiment_id": "c0132910-4482-46b7-a29b-971a3bf2621a",
+      "branch": "orx/micebone-j6-picce-ova-seed-260217146",
+      "run_id": "be69dc1c-04f3-4b9b-ab2b-1e3529bac7d2",
+      "job_id": "6a6d97616b79c09949c1e22b"
+    },
+    {
+      "j": 8,
+      "method": "ce",
+      "seed": 260217144,
+      "experiment_id": "df8930af-3d48-467d-a05e-88210aaaeba5",
+      "branch": "orx/micebone-j8-ce-seed-260217144",
+      "run_id": "7bcb1edd-ce6a-4afb-923b-424c6e334d19",
+      "job_id": "6a6d97686b79c09949c1e22d"
+    },
+    {
+      "j": 8,
+      "method": "ce",
+      "seed": 260217145,
+      "experiment_id": "b7e8af47-a43e-464a-b831-5081bf686754",
+      "branch": "orx/micebone-j8-ce-seed-260217145",
+      "run_id": "8138d7fa-0d0a-40d0-a7fe-e7b92ba70c3d",
+      "job_id": "6a6d9772a00abefd4b28af9d"
+    },
+    {
+      "j": 8,
+      "method": "ce",
+      "seed": 260217146,
+      "experiment_id": "15a3305a-131f-4fc9-97a0-e7e3c9a7f9ed",
+      "branch": "orx/micebone-j8-ce-seed-260217146",
+      "run_id": "b42313fb-1df5-4bce-ac94-afdddc427171",
+      "job_id": "6a6d977aa00abefd4b28af9f"
+    },
+    {
+      "j": 8,
+      "method": "picce_ce",
+      "seed": 260217144,
+      "experiment_id": "3cfc98ca-6692-4b87-8035-4283ed4f64b4",
+      "branch": "orx/micebone-j8-picce-ce-seed-260217144",
+      "run_id": "2e677a52-2000-48f2-a68c-30f1518bfd16",
+      "job_id": "6a6d97a76b79c09949c1e233"
+    },
+    {
+      "j": 8,
+      "method": "picce_ce",
+      "seed": 260217145,
+      "experiment_id": "0bf5ada9-9f41-4734-a548-06768abf91c2",
+      "branch": "orx/micebone-j8-picce-ce-seed-260217145",
+      "run_id": "d3ce2e6d-8297-4492-8758-8abd44be6543",
+      "job_id": "6a6d97ae6b79c09949c1e235"
+    },
+    {
+      "j": 8,
+      "method": "picce_ce",
+      "seed": 260217146,
+      "experiment_id": "cb6686d7-d760-4891-bc4c-977e232b5909",
+      "branch": "orx/micebone-j8-picce-ce-seed-260217146",
+      "run_id": "c909661d-2698-4d87-afac-c4d1b9198259",
+      "job_id": "6a6d97b6a00abefd4b28afa3"
+    },
+    {
+      "j": 8,
+      "method": "ova",
+      "seed": 260217144,
+      "experiment_id": "85aa0bad-61bd-4251-9b4d-2b909dc9bda8",
+      "branch": "orx/micebone-j8-ova-seed-260217144",
+      "run_id": "11d097d6-b580-494b-b49b-b2db48ee0f15",
+      "job_id": "6a6d97bd6b79c09949c1e237"
+    },
+    {
+      "j": 8,
+      "method": "ova",
+      "seed": 260217145,
+      "experiment_id": "ce87d64a-390a-4dce-89f7-bcfc4f5a0dc3",
+      "branch": "orx/micebone-j8-ova-seed-260217145",
+      "run_id": "f5c37cdd-1a45-4846-9fd7-725786ba67db",
+      "job_id": "6a6d97c56b79c09949c1e239"
+    },
+    {
+      "j": 8,
+      "method": "ova",
+      "seed": 260217146,
+      "experiment_id": "2a50cc6c-9c46-4aac-9562-7733f973d1b3",
+      "branch": "orx/micebone-j8-ova-seed-260217146",
+      "run_id": "e85d6b57-d0f0-4cd6-96af-63cab60687c0",
+      "job_id": "6a6d97cca00abefd4b28afa7"
+    },
+    {
+      "j": 8,
+      "method": "picce_ova",
+      "seed": 260217144,
+      "experiment_id": "9a3288ec-1fed-4aa0-ba09-a97a39d88919",
+      "branch": "orx/micebone-j8-picce-ova-seed-260217144",
+      "run_id": "f5df9820-bf0b-4c23-a303-93ea572b6627",
+      "job_id": "6a6d97d46b79c09949c1e23b"
+    },
+    {
+      "j": 8,
+      "method": "picce_ova",
+      "seed": 260217145,
+      "experiment_id": "0b2da7ad-de21-4740-a2c2-f09bd1ea3090",
+      "branch": "orx/micebone-j8-picce-ova-seed-260217145",
+      "run_id": "89248e1a-ea0b-4a35-bb7b-ad2153463fa6",
+      "job_id": "6a6d97dba00abefd4b28afa9"
+    },
+    {
+      "j": 8,
+      "method": "picce_ova",
+      "seed": 260217146,
+      "experiment_id": "dcf73649-3206-42cb-9acf-2548e726b7ee",
+      "branch": "orx/micebone-j8-picce-ova-seed-260217146",
+      "run_id": "8cf05a66-88c9-4f26-8a5e-76c99b262639",
+      "job_id": "6a6d97e4a00abefd4b28afab"
+    }
+  ]
+}

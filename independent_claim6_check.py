@@ -1,0 +1,101 @@
+import json
+import math
+import re
+import sys
+from pathlib import Path
+
+
+EXPERT_COUNTS = (2, 4, 6, 8)
+METHODS = ("ce", "picce_ce", "ova", "picce_ova")
+SEEDS = (260217144, 260217145, 260217146)
+TARGET = "complete_annotator_majority_priority_g_ug_nr"
+NAME = re.compile(r"micebone_training_j(2|4|6|8)_(ce|picce_ce|ova|picce_ova)_seed(260217144|260217145|260217146)\.json")
+
+
+def near(left: float, right: float) -> bool:
+    return abs(left - right) <= 1e-10
+
+
+def main() -> None:
+    result_path = Path(sys.argv[1])
+    evidence = json.loads(result_path.read_text())
+    observed = {}
+    for path in result_path.parent.glob("micebone_training_j*_seed*.json"):
+        match = NAME.fullmatch(path.name)
+        assert match is not None
+        experts, method, seed = int(match.group(1)), match.group(2), int(match.group(3))
+        raw = json.loads(path.read_text())
+        contract = raw["training_contract"]
+        assert raw["accepted_scientific_result"] is True
+        assert contract["accepted_scientific_result"] is True
+        assert contract["target"] == TARGET
+        assert contract["epochs"] == 100
+        assert contract["expert_counts"] == [experts]
+        assert contract["methods"] == [method]
+        assert contract["seeds"] == [seed]
+        assert contract["cpu_memory_format"] == "channels_last"
+        assert len(raw["runs"]) == 1
+        run = raw["runs"][0]
+        assert len(run["history"]) == 100
+        assert run["history"][-1]["epoch"] == 100
+        assert run["history"][-1]["samples"] == 1543
+        observed[experts, method, seed] = run["history"][-1]["classifier_accuracy_percent"]
+
+    expected = {
+        (experts, method, seed)
+        for experts in EXPERT_COUNTS
+        for method in METHODS
+        for seed in SEEDS
+    }
+    assert set(observed) == expected
+    means = {}
+    for method in METHODS:
+        means[method] = {}
+        for experts in EXPERT_COUNTS:
+            mean = sum(observed[experts, method, seed] for seed in SEEDS) / 3
+            means[method][experts] = mean
+            assert near(evidence["seed_means_percent"][method][str(experts)], mean)
+
+    degradation = {}
+    for method in ("ce", "ova"):
+        adjacent = all(means[method][left] > means[method][right] for left, right in zip(EXPERT_COUNTS, EXPERT_COUNTS[1:]))
+        endpoint_drop = means[method][2] - means[method][8]
+        degradation[method] = adjacent and endpoint_drop >= 2.0
+
+    stability = {}
+    for method in ("picce_ce", "picce_ova"):
+        stability[method] = max(means[method].values()) - min(means[method].values()) <= 2.0
+
+    paired = {}
+    intervals = {}
+    for vanilla, picce in (("ce", "picce_ce"), ("ova", "picce_ova")):
+        key = f"{picce}_minus_{vanilla}"
+        differences = [observed[8, picce, seed] - observed[8, vanilla, seed] for seed in SEEDS]
+        mean = sum(differences) / 3
+        sample_variance = sum((value - mean) ** 2 for value in differences) / 2
+        margin = 4.302652729911275 * math.sqrt(sample_variance) / math.sqrt(3)
+        intervals[key] = [mean - margin, mean + margin]
+        paired[key] = means[picce][8] > means[vanilla][8]
+        reported = evidence["clauses"]["j8_paired_formulation_comparison"][key]
+        assert all(near(a, b) for a, b in zip(reported["ci95_percentage_points"], intervals[key]))
+
+    passes = list(degradation.values()) + list(stability.values()) + list(paired.values())
+    verdict = "VERIFIED" if all(passes) else "FALSIFIED"
+    assert evidence["verdict"] == verdict
+    print(
+        json.dumps(
+            {
+                "independent_verdict": verdict,
+                "exact_grid_cells": len(observed),
+                "degradation": degradation,
+                "stability": stability,
+                "j8_paired": paired,
+                "paired_ci95_percentage_points": intervals,
+            },
+            sort_keys=True,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()
