@@ -186,7 +186,7 @@ def resolve_targets(root: Path) -> dict:
         "filename": {path: image_label(path) for path in paths},
         "all_majority": {path: majority(all_votes[path])[0] for path in paths},
         "complete_annotator_majority": {path: majority(full_votes[path])[0] for path in paths},
-        "partial_annotator_majority": {path: majority(partial_votes[path])[0] for path in paths},
+        "partial_annotator_majority": {path: majority(votes)[0] for path, votes in partial_votes.items()},
     }
     split_paths = {
         "train": [path for path in paths if image_fold(path) != "fold5"],
@@ -206,8 +206,10 @@ def resolve_targets(root: Path) -> dict:
         metrics = {}
         for split, selected_paths in split_paths.items():
             for target_name, targets in target_sets.items():
-                correct = sum(predictions[path] == targets[path] for path in selected_paths)
-                metrics[f"{split}_{target_name}_accuracy_percent"] = 100 * correct / len(selected_paths)
+                eligible = [path for path in selected_paths if path in targets]
+                correct = sum(predictions[path] == targets[path] for path in eligible)
+                metrics[f"{split}_{target_name}_eligible"] = len(eligible)
+                metrics[f"{split}_{target_name}_accuracy_percent"] = 100 * correct / len(eligible)
 
             loo_majority_correct = 0
             loo_complete_correct = 0
@@ -247,7 +249,8 @@ def resolve_targets(root: Path) -> dict:
         "per_image_annotation_count_histogram": {str(key): value for key, value in sorted(annotation_counts.items())},
         "filename_vs_all_majority_agreement_percent": 100 * sum(target_sets["filename"][path] == target_sets["all_majority"][path] for path in paths) / len(paths),
         "all_majority_tie_count": sum(majority(all_votes[path])[1] for path in paths),
-        "partial_majority_tie_count": sum(majority(partial_votes[path])[1] for path in paths),
+        "partial_vote_image_count": len(partial_votes),
+        "partial_majority_tie_count": sum(majority(votes)[1] for votes in partial_votes.values()),
         "complete_majority_tie_count": sum(majority(full_votes[path])[1] for path in paths),
         "experts": experts,
         "privacy": "user_mail fields were neither copied nor emitted",
