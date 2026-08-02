@@ -44,6 +44,11 @@ count; it does not claim PiCCE is generally worse.
   [independent_checker_output.json](../.openresearch/artifacts/independent_checker_output.json)
 - One tampered-evidence run per claim, each required to exit nonzero:
   [negative_control_output.json](../.openresearch/artifacts/negative_control_output.json)
+- Universal Claims 1–3 certificate:
+  [proof JSON](../.openresearch/artifacts/universal_proof_certificates.json),
+  [primary output](../.openresearch/artifacts/proof_verifier_output.json),
+  [independent output](../.openresearch/artifacts/proof_independent_output.json), and
+  [tampered-overlap output](../.openresearch/artifacts/proof_negative_control_output.json)
 - Concise limitations: [EVAL.md](../.openresearch/artifacts/EVAL.md)
 
 ## Limitations

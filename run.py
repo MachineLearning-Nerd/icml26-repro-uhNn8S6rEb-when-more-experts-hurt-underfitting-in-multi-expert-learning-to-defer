@@ -11,6 +11,7 @@ import torch
 
 from micebone import audit_micebone, inspect_annotations, resolve_targets
 from micebone_train import effective_cpu_count, run_micebone_training
+from proof_certificates import build_proof_certificates
 from theory import evaluate_theory
 
 
@@ -76,6 +77,28 @@ def main() -> None:
     (ARTIFACTS / "negative_control_output.json").write_text(json.dumps(controls, indent=2) + "\n")
     if any(control["exit_code"] == 0 for control in controls.values()):
         raise RuntimeError("a negative control incorrectly passed")
+
+    proof_verifier = None
+    proof_independent = None
+    proof_control = None
+    if config["stage"] == "universal-theory-certificates":
+        proof = build_proof_certificates()
+        proof_path = ARTIFACTS / "universal_proof_certificates.json"
+        proof_path.write_text(json.dumps(proof, indent=2, sort_keys=True) + "\n")
+        proof_verifier = run_checker("verify_proof_certificates.py", proof_path)
+        proof_independent = run_checker("independent_proof_check.py", proof_path)
+        (ARTIFACTS / "proof_verifier_output.json").write_text(json.dumps(proof_verifier, indent=2) + "\n")
+        (ARTIFACTS / "proof_independent_output.json").write_text(json.dumps(proof_independent, indent=2) + "\n")
+        if proof_verifier["exit_code"] != 0 or proof_independent["exit_code"] != 0:
+            raise RuntimeError("universal proof certificate failed verification")
+        tampered_proof = copy.deepcopy(proof)
+        tampered_proof["claim_3"]["theorem_2"]["overlap_agreement"] = False
+        tampered_proof_path = ARTIFACTS / "proof_negative_control.json"
+        tampered_proof_path.write_text(json.dumps(tampered_proof, indent=2, sort_keys=True) + "\n")
+        proof_control = run_checker("verify_proof_certificates.py", tampered_proof_path)
+        (ARTIFACTS / "proof_negative_control_output.json").write_text(json.dumps(proof_control, indent=2) + "\n")
+        if proof_control["exit_code"] == 0:
+            raise RuntimeError("universal proof negative control incorrectly passed")
 
     if config["stage"].startswith("micebone-"):
         inventory = audit_micebone(ROOT)
@@ -155,9 +178,20 @@ def main() -> None:
         "Claim 5: **FALSIFIED AS PRINTED**. Table 2 reports MiceBone/two-expert CE error "
         "`15.17` versus PiCCE-CE `15.23`, contradicting improved error at every count.\n\n"
         "The verifier and independent checker exit 0. All five claim-specific tampered controls exit nonzero. "
+        "The universal proof schema has a separate verifier, independent reconstruction, and tampered-overlap control. "
         "Claim 6's full-data decision rule is preregistered; no training result is accepted at this stage.\n"
     )
-    print(json.dumps({"verifier": verifier["stdout"].strip(), "independent": independent["stdout"].strip(), "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()}, "runtime_seconds": elapsed}, indent=2))
+    summary = {
+        "verifier": verifier["stdout"].strip(),
+        "independent": independent["stdout"].strip(),
+        "negative_control_exits": {name: result["exit_code"] for name, result in controls.items()},
+        "runtime_seconds": elapsed,
+    }
+    if proof_verifier is not None:
+        summary["proof_verifier"] = proof_verifier["stdout"].strip()
+        summary["proof_independent"] = proof_independent["stdout"].strip()
+        summary["proof_negative_control_exit"] = proof_control["exit_code"]
+    print(json.dumps(summary, indent=2))
     bundle = {path.name: path.read_text() for path in sorted(ARTIFACTS.iterdir())}
     print("ORX_ARTIFACT_BUNDLE_BEGIN")
     print(json.dumps(bundle, sort_keys=True))

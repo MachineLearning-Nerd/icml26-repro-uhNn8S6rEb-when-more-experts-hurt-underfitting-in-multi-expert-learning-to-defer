@@ -1,7 +1,7 @@
 {
-  "stage": "micebone-training-shard",
+  "stage": "universal-theory-certificates",
   "seed": 260217144,
-  "estimated_cores": 8,
+  "estimated_cores": 1,
   "selected_flavor": "cpu-upgrade",
   "container_image": "ghcr.io/astral-sh/uv:python3.12-bookworm-slim",
   "fixed_command": "uv run --frozen python run.py",
