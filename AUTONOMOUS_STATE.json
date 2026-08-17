@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "openreview_id": "uhNn8S6rEb",
-  "phase": "dossier_in_progress",
-  "next_action": "publish dossier, verify the live 64-branch state, and record the final audit commit",
+  "phase": "published_and_live_verified",
+  "next_action": "monitor for source-faithful Claim 6 artifacts; do not promote the calibration run",
   "github_repository": "https://github.com/MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
   "former_repository": "icml26-repro-uhNn8S6rEb-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
   "branch_count": 64,
@@ -21,5 +21,5 @@
     "score": "5/12",
     "current_score_not_claimed": true
   },
-  "last_known_git_commit": null
+  "last_known_git_commit": "318a89b"
 }
