@@ -300,7 +300,8 @@ def main() -> None:
         "d381ed2e443e7f2cdb48f51bf0e8cf8d07333bd4ae484fc6a0e4c0922bf67fdc" in source,
         "source hash is not pinned",
     )
-    require("(15.17, 60.92)" in source and "(15.23, 69.28)" in source, "Table 2 audit changed")
+    compact_source = source.replace(" ", "")
+    require("(15.17,60.92)" in compact_source and "(15.23,69.28)" in compact_source, "Table 2 audit changed")
 
     verifier = branch_json(
         "release/universal-theory-certificates",

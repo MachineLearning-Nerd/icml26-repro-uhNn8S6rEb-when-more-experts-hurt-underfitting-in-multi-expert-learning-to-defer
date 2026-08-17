@@ -13,7 +13,7 @@
     {"path": "AUTHOR_THANK_YOU.md", "sha256": "6fd5e6a4d7c38de33cc33c09b813f2cfe068829c1b346a4c1fb275fbab95446c"},
     {"path": "CITATION.cff", "sha256": "689b587df020a62abf875f0de4bd4ecf319ccb696a193e1a18a7099fed2fea38"},
     {"path": "claims.json", "sha256": "6fb8d099ccb9ed411e5936d3e9a80b0f4099cf2bd07b32e4ec34c2a92af1b21c"},
-    {"path": "verify_final.py", "sha256": "9e18d512246fe4954bd8da9d1124200e133e9d54230d4ff58799dec452869f1e"},
+    {"path": "verify_final.py", "sha256": "77c90780e2eea5c874f38fd889ab3da9b7f8046df047bebc435098e670d25072"},
     {"ref": "release/universal-theory-certificates", "path": "source_audit.md", "sha256": "9b7cf0563a2f7419669335c88641a47b7b316a1f7275acd2f02af5c3ef44f4fb"},
     {"ref": "release/universal-theory-certificates", "path": "theory.py", "sha256": "72ebc607b009de081624dae13321f76f8ecc913f8da83b56fcb1e59b02d98678"},
     {"ref": "release/universal-theory-certificates", "path": "verify.py", "sha256": "9409c6b1de7ce0ca8c43100fdfc06fe85ea2b6247ae32667e52039f8268c4521"},
