@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If this audit dossier or its scoped evidence is useful, please cite the paper and this repository."
+type: software
+title: "When More Experts Hurt: ICML 2026 scoped reproduction audit"
+abstract: "A source-pinned, branch-audited reproduction dossier for When More Experts Hurt: Underfitting in Multi-Expert Learning to Defer."
+authors:
+  - family-names: Liu
+    given-names: Shuqi
+  - family-names: Cao
+    given-names: Yuzhou
+  - family-names: Feng
+    given-names: Lei
+  - family-names: An
+    given-names: Bo
+  - family-names: Ong
+    given-names: Luke
+repository-code: "https://github.com/MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer"
+url: "https://arxiv.org/abs/2602.17144"
+date-released: 2026-08-17
+keywords:
+  - ICML 2026
+  - learning to defer
+  - multi-expert learning
+  - reproduction audit

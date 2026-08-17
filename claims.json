@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "repository": "MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
+  "paper": {
+    "title": "When More Experts Hurt: Underfitting in Multi-Expert Learning to Defer",
+    "authors": [
+      "Shuqi Liu",
+      "Yuzhou Cao",
+      "Lei Feng",
+      "Bo An",
+      "Luke Ong"
+    ],
+    "arxiv": "2602.17144",
+    "openreview": "uhNn8S6rEb"
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "status": "verified_scoped",
+      "paper_statement": "Vanilla aggregation can scale with J and flatten classifier-label margins.",
+      "scope": "Constructive all-3/4-accurate family with exact rational checks and J through 64.",
+      "evidence": [
+        "release/universal-theory-certificates:theory.py",
+        "release/universal-theory-certificates:verify.py",
+        "release/universal-theory-certificates:.openresearch/artifacts/theory_results.json"
+      ]
+    },
+    {
+      "id": "C2",
+      "status": "verified_scoped",
+      "paper_statement": "First-correct PiCCE terms partition union coverage.",
+      "scope": "Universal identity reconstruction plus 873 exact Boolean/permutation checks through J=6.",
+      "evidence": [
+        "release/universal-theory-certificates:proof_certificates.py",
+        "release/universal-theory-certificates:independent_proof_check.py",
+        "release/universal-theory-certificates:verify_proof_certificates.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "status": "verified_scoped",
+      "paper_statement": "Continuity and CE/OvA consistency hold under the stated assumptions.",
+      "scope": "Finite region/tie analysis and rational population-minimizer reconstruction.",
+      "evidence": [
+        "release/universal-theory-certificates:theory.py",
+        "release/universal-theory-certificates:verify.py",
+        "release/universal-theory-certificates:independent_check.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "status": "falsified_literal_theorem_formula",
+      "paper_statement": "Theorem 6(A) prints u*_{j*} = Acc_{j*} V_tilde.",
+      "scope": "Exact Condition 1 counterexample; CE optimum 2/5 versus printed 7/20.",
+      "evidence": [
+        "release/universal-theory-certificates:source_audit.md",
+        "release/universal-theory-certificates:.openresearch/artifacts/theory_results.json",
+        "release/universal-theory-certificates:.openresearch/artifacts/verifier_output.json"
+      ]
+    },
+    {
+      "id": "C5",
+      "status": "falsified_source_table",
+      "paper_statement": "PiCCE improves system error and coverage across the reported settings.",
+      "scope": "Paper Table 2, MiceBone, CE, two experts; error 15.17 versus 15.23.",
+      "evidence": [
+        "release/universal-theory-certificates:source_audit.md",
+        "release/universal-theory-certificates:.openresearch/artifacts/theory_results.json"
+      ]
+    },
+    {
+      "id": "C6",
+      "status": "blocked_source_faithful_empirical",
+      "paper_statement": "MiceBone vanilla accuracy drops with J while PiCCE remains stable.",
+      "scope": "48-cell J=2/4/6/8, four methods, three seeds; no accepted complete bundle.",
+      "evidence": [
+        "release/claim-6-aggregate-preregistered:.openresearch/artifacts/claim6_contract.json",
+        "release/claim-6-aggregate-preregistered:.openresearch/artifacts/micebone_training_j2_ce_seed260217144.json",
+        "release/claim-6-aggregate-preregistered:.openresearch/artifacts/rerun_manifest.json"
+      ]
+    }
+  ],
+  "official_rejudge": {
+    "status": "historical_recorded",
+    "space": "DineshAI/uhNn8S6rEb",
+    "revision": "6d7a28419633108958c5dccc2380e9232971cad3",
+    "score": "5/12",
+    "current_score_not_claimed": true
+  },
+  "publication_allowed": false,
+  "publication_policy": "Do not publish a new complete-reproduction conclusion while Claim 6 lacks its accepted source-faithful aggregate."
+}

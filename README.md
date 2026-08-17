@@ -36,6 +36,25 @@ The audit separates the paper’s mathematical statements from its empirical sta
 | 5. PiCCE improves system error and coverage across reported settings | source_audit.md and the paper’s Table 2 audit | FALSIFIED AS PRINTED | For MiceBone with two experts under CE, the paper reports error 15.17 for vanilla and 15.23 for PiCCE. This contradicts the broad improvement conjunction as printed; it does not prove PiCCE is always worse. |
 | 6. MiceBone vanilla accuracy degrades with J while PiCCE stays stable | claim6_contract.json, MiceBone training branches, and calibration artifacts | BLOCKED | The full J=2/4/6/8, CE/OvA, PiCCE-CE/PiCCE-OvA, three-seed campaign is not accepted. The one-epoch J=2 CE run is explicitly calibration only. |
 
+## Audit dossier and final-state check
+
+The repository-level audit is split into focused, reviewable records:
+
+- [CLAIM_EVIDENCE.md](CLAIM_EVIDENCE.md) maps every paper claim to its production path, result, scope, and limitation.
+- [SOURCE_AUDIT.md](SOURCE_AUDIT.md) freezes the paper source, reported table values, theorem contradiction, and MiceBone target assumptions.
+- [ENVIRONMENT.md](ENVIRONMENT.md) records the exact theory and training environments, including the stopped 48-cell campaign.
+- [REPORT.md](REPORT.md) gives the conservative reproduction verdict and publication policy.
+- [BRANCH_AUDIT.md](BRANCH_AUDIT.md) summarizes the normalized branch groups; [branch-audit.md](branch-audit.md) is the complete old-to-new map.
+- [CITATION.cff](CITATION.cff) and [AUTHOR_THANK_YOU.md](AUTHOR_THANK_YOU.md) provide the citation and author acknowledgment.
+
+From a fresh clone, run:
+
+~~~sh
+python3 verify_final.py
+~~~
+
+The verifier checks the live origin branch set, canonical MachineLearning-Nerd commit attribution, required dossier files, claim contracts, selected branch evidence hashes, and the explicit Claim 6 publication block. It does not convert a source-table audit or a calibration run into an accepted empirical reproduction.
+
 ## How each claim is produced
 
 1. Source contract: source_audit.md freezes the relevant equations, assumptions, table values, and the MiceBone target ambiguity against the paper source.
