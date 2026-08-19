@@ -13,9 +13,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 CANONICAL = (
     "MachineLearning-Nerd",
-    "37579156+MachineLearning-Nerd@users.noreply.github.com",
+    "MachineLearning-Nerd@users.noreply.github.com",
 )
 REPOSITORY = "icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer"
+EXPECTED_OVERALL_VERDICT = "PARTIAL_CLAIMS_1_TO_3_VERIFIED_SCOPED_CLAIM_4_LITERAL_THEOREM_FALSIFIED_CLAIM_5_SOURCE_TABLE_FALSIFIED_CLAIM_6_BLOCKED"
+EXPECTED_PUBLICATION_BOUNDARY = "HISTORICAL_5_OF_12_NO_CURRENT_SCORE_CLAIM_6_BLOCKED_NO_FULL_REPRODUCTION"
 REQUIRED_PATHS = [
     "README.md",
     "branch-audit.md",
@@ -27,6 +29,8 @@ REQUIRED_PATHS = [
     "AUTHOR_THANK_YOU.md",
     "CITATION.cff",
     "claims.json",
+    "STATUS.md",
+    "reproduction_verdicts.json",
     "EVIDENCE_MANIFEST.json",
     "AUTONOMOUS_STATE.json",
     "verify_final.py",
@@ -214,7 +218,7 @@ def main() -> None:
         "co-author trailer found",
     )
     commit_count = int(run("git", "rev-list", "--count", "--all").strip())
-    require(commit_count >= 96, f"unexpectedly short history: {commit_count}")
+    require(commit_count >= 102, f"unexpectedly short history: {commit_count}")
 
     for path in REQUIRED_PATHS:
         require(
@@ -225,7 +229,11 @@ def main() -> None:
     claims = current_json("claims.json")
     require(isinstance(claims, dict), "claims.json must be an object")
     require(claims.get("repository") == f"MachineLearning-Nerd/{REPOSITORY}", "claims repository mismatch")
+    require(claims.get("overall_verdict") == EXPECTED_OVERALL_VERDICT, "claims overall verdict changed")
+    require(claims.get("publication_boundary") == EXPECTED_PUBLICATION_BOUNDARY, "claims publication boundary changed")
     require(claims.get("publication_allowed") is False, "publication block changed")
+    require(claims.get("score_claim") is False, "score claim boundary changed")
+    require(claims.get("official_author_endorsement") is False, "author endorsement boundary changed")
     rows = claims.get("claims", [])
     require(len(rows) == 6, "claims.json must contain six claims")
     statuses = [row.get("status") for row in rows]
@@ -245,11 +253,60 @@ def main() -> None:
     require(official.get("score") == "5/12", "historical score record changed")
     require(official.get("current_score_not_claimed") is True, "current score is being implied")
 
+    reproduction = current_json("reproduction_verdicts.json")
+    require(isinstance(reproduction, dict), "reproduction verdicts must be an object")
+    require(reproduction.get("repository") == f"MachineLearning-Nerd/{REPOSITORY}", "reproduction repository mismatch")
+    require(reproduction.get("overall_verdict") == EXPECTED_OVERALL_VERDICT, "reproduction overall verdict changed")
+    require(reproduction.get("publication_boundary") == EXPECTED_PUBLICATION_BOUNDARY, "reproduction publication boundary changed")
+    require(reproduction.get("publication_allowed") is False, "reproduction publication block changed")
+    require(reproduction.get("score_claim") is False, "reproduction score boundary changed")
+    require(reproduction.get("official_author_endorsement") is False, "reproduction endorsement boundary changed")
+    reproduction_rows = reproduction.get("verdicts", {})
+    require(
+        [reproduction_rows[str(i)].get("verdict") for i in range(1, 7)]
+        == statuses,
+        "reproduction verdict rows changed",
+    )
+
     state = current_json("AUTONOMOUS_STATE.json")
-    require(state.get("phase") == "published_and_live_verified", "state is not final")
+    require(state.get("phase") == "published_scoped_partial_audit_historical_5_of_12_claim_6_blocked", "state is not final")
     require(state.get("branch_count") == 64, "state branch count changed")
+    require(state.get("default_branch") == "main", "state default branch changed")
     require(state.get("publication_allowed") is False, "state publication block changed")
-    require(state.get("last_known_git_commit"), "state has no recorded dossier commit")
+    require(state.get("overall_verdict") == EXPECTED_OVERALL_VERDICT, "state overall verdict changed")
+    require(state.get("publication_boundary") == EXPECTED_PUBLICATION_BOUNDARY, "state publication boundary changed")
+    require(state.get("score_claim") is False, "state score boundary changed")
+    require(state.get("official_author_endorsement") is False, "state endorsement boundary changed")
+    require(state.get("verified_reachable_commits") == 102, "state commit count changed")
+    require(state.get("attribution") == {
+        "name": "MachineLearning-Nerd",
+        "email": "MachineLearning-Nerd@users.noreply.github.com",
+    }, "state attribution changed")
+    require(isinstance(state.get("last_known_git_commit"), str) and len(state["last_known_git_commit"]) == 40, "state has no recorded dossier commit")
+
+    readme = current_bytes("README.md").decode("utf-8")
+    status = current_bytes("STATUS.md").decode("utf-8")
+    report = current_bytes("REPORT.md").decode("utf-8")
+    for marker in (
+        EXPECTED_OVERALL_VERDICT,
+        EXPECTED_PUBLICATION_BOUNDARY,
+        "publication_allowed=false",
+        "score_claim=false",
+        "official_author_endorsement=false",
+        "reproduction_verdicts.json",
+    ):
+        require(marker in readme, f"README missing status marker: {marker}")
+    for marker in (
+        EXPECTED_OVERALL_VERDICT,
+        EXPECTED_PUBLICATION_BOUNDARY,
+        "publication_allowed=false",
+        "score_claim=false",
+        "official_author_endorsement=false",
+        "reproduction_verdicts.json",
+    ):
+        require(marker in status, f"STATUS missing status marker: {marker}")
+    for marker in (EXPECTED_OVERALL_VERDICT, "publication_allowed=false", "score_claim=false", "official_author_endorsement=false"):
+        require(marker in report, f"REPORT missing status marker: {marker}")
 
     contract = branch_json(
         "release/universal-theory-certificates",

@@ -1,6 +1,10 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
+  "overall_verdict": "PARTIAL_CLAIMS_1_TO_3_VERIFIED_SCOPED_CLAIM_4_LITERAL_THEOREM_FALSIFIED_CLAIM_5_SOURCE_TABLE_FALSIFIED_CLAIM_6_BLOCKED",
+  "publication_boundary": "HISTORICAL_5_OF_12_NO_CURRENT_SCORE_CLAIM_6_BLOCKED_NO_FULL_REPRODUCTION",
+  "score_claim": false,
+  "official_author_endorsement": false,
   "paper": {
     "title": "When More Experts Hurt: Underfitting in Multi-Expert Learning to Defer",
     "authors": [

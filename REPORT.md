@@ -14,6 +14,10 @@
 The collection-level status is therefore a **partial scoped audit**, not a
 claim that the paper has been fully reproduced.
 
+Machine-readable overall verdict: `PARTIAL_CLAIMS_1_TO_3_VERIFIED_SCOPED_CLAIM_4_LITERAL_THEOREM_FALSIFIED_CLAIM_5_SOURCE_TABLE_FALSIFIED_CLAIM_6_BLOCKED`.
+
+Publication boundary: `HISTORICAL_5_OF_12_NO_CURRENT_SCORE_CLAIM_6_BLOCKED_NO_FULL_REPRODUCTION`; `publication_allowed=false`, `score_claim=false`, and `official_author_endorsement=false`.
+
 ## What this repository establishes
 
 The exact release branch supports the stated finite algebraic certificates for

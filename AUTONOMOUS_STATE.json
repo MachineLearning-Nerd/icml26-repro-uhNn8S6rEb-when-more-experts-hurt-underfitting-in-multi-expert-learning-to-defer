@@ -1,12 +1,18 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
+  "repository": "MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
   "openreview_id": "uhNn8S6rEb",
-  "phase": "published_and_live_verified",
+  "phase": "published_scoped_partial_audit_historical_5_of_12_claim_6_blocked",
   "next_action": "monitor for source-faithful Claim 6 artifacts; do not promote the calibration run",
   "github_repository": "https://github.com/MachineLearning-Nerd/icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
   "former_repository": "icml26-repro-uhNn8S6rEb-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer",
+  "default_branch": "main",
   "branch_count": 64,
   "publication_allowed": false,
+  "overall_verdict": "PARTIAL_CLAIMS_1_TO_3_VERIFIED_SCOPED_CLAIM_4_LITERAL_THEOREM_FALSIFIED_CLAIM_5_SOURCE_TABLE_FALSIFIED_CLAIM_6_BLOCKED",
+  "publication_boundary": "HISTORICAL_5_OF_12_NO_CURRENT_SCORE_CLAIM_6_BLOCKED_NO_FULL_REPRODUCTION",
+  "score_claim": false,
+  "official_author_endorsement": false,
   "claim_statuses": {
     "C1": "verified_scoped",
     "C2": "verified_scoped",
@@ -21,5 +27,27 @@
     "score": "5/12",
     "current_score_not_claimed": true
   },
-  "last_known_git_commit": "acd198f"
+  "attribution": {
+    "name": "MachineLearning-Nerd",
+    "email": "MachineLearning-Nerd@users.noreply.github.com"
+  },
+  "verified_reachable_commits": 100,
+  "recovery_bundle_sha256": null,
+  "last_known_git_commit": "2ce4d954e5a27c535f7ded034ab25021ec9e3a34",
+  "documentation": {
+    "readme": "complete",
+    "status": "complete",
+    "branch_audit": "complete",
+    "claim_evidence": "complete",
+    "source_audit": "complete",
+    "environment": "complete",
+    "report": "complete",
+    "citation": "complete",
+    "author_thank_you": "complete",
+    "aggregate_manifest": "complete",
+    "reproduction_verdicts": "complete",
+    "final_verifier": "complete"
+  },
+  "published_dossier": null,
+  "live_verification": null
 }

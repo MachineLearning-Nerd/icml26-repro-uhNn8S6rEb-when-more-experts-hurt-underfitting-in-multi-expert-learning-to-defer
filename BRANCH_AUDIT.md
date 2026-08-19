@@ -27,7 +27,7 @@ experiment/micebone-figure-2-sweep.
 
 All reachable commits are attributed to:
 
-    MachineLearning-Nerd <37579156+MachineLearning-Nerd@users.noreply.github.com>
+    MachineLearning-Nerd <MachineLearning-Nerd@users.noreply.github.com>
 
 Branch names describe evidence roles. Their existence does not imply that
 every experiment completed or that a branch's result was accepted.

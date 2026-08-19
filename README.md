@@ -11,6 +11,10 @@ The current scientific status is deliberately conservative:
 
 This is an audit record, not a claim that the paper’s complete empirical story has been reproduced.
 
+Machine-readable overall verdict: `PARTIAL_CLAIMS_1_TO_3_VERIFIED_SCOPED_CLAIM_4_LITERAL_THEOREM_FALSIFIED_CLAIM_5_SOURCE_TABLE_FALSIFIED_CLAIM_6_BLOCKED`.
+
+Publication boundary: `HISTORICAL_5_OF_12_NO_CURRENT_SCORE_CLAIM_6_BLOCKED_NO_FULL_REPRODUCTION`; `publication_allowed=false`, `score_claim=false`, and `official_author_endorsement=false`.
+
 ## Paper
 
 - Title: When More Experts Hurt: Underfitting in Multi-Expert Learning to Defer
@@ -44,6 +48,7 @@ The repository-level audit is split into focused, reviewable records:
 - [SOURCE_AUDIT.md](SOURCE_AUDIT.md) freezes the paper source, reported table values, theorem contradiction, and MiceBone target assumptions.
 - [ENVIRONMENT.md](ENVIRONMENT.md) records the exact theory and training environments, including the stopped 48-cell campaign.
 - [REPORT.md](REPORT.md) gives the conservative reproduction verdict and publication policy.
+- [STATUS.md](STATUS.md) and [reproduction_verdicts.json](reproduction_verdicts.json) record the current state in human- and machine-readable form.
 - [BRANCH_AUDIT.md](BRANCH_AUDIT.md) summarizes the normalized branch groups; [branch-audit.md](branch-audit.md) is the complete old-to-new map.
 - [CITATION.cff](CITATION.cff) and [AUTHOR_THANK_YOU.md](AUTHOR_THANK_YOU.md) provide the citation and author acknowledgment.
 
@@ -120,6 +125,6 @@ Thank you to Shuqi Liu, Yuzhou Cao, Lei Feng, Bo An, and Luke Ong for the paper,
 
 Approved repository commits and rewritten reachable history use the MachineLearning-Nerd GitHub identity:
 
-    MachineLearning-Nerd <37579156+MachineLearning-Nerd@users.noreply.github.com>
+    MachineLearning-Nerd <MachineLearning-Nerd@users.noreply.github.com>
 
 The original repository name was icml26-repro-uhNn8S6rEb-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer. It is being normalized to icml26-when-more-experts-hurt-underfitting-in-multi-expert-learning-to-defer.
