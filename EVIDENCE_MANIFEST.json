@@ -21,7 +21,7 @@
     {"path": "claims.json", "sha256": "131b672341aa4078bed38ffaddfa9e9e22970f30c413b7e6a97301e7fd2f9788"},
     {"path": "STATUS.md", "sha256": "85de39494171c3878cfb76093ac79fd7576cec51807d4a7d938c2c56bf683691"},
     {"path": "reproduction_verdicts.json", "sha256": "059561a8dd8b0495d05e43f62bfbd0967e1f2f1f37965e8f842bb4e57ca56558"},
-    {"path": "AUTONOMOUS_STATE.json", "sha256": "220cad97117f0eb77f6857b668635380f0b4978c6ffb776c025cf8be1b112c85"},
+    {"path": "AUTONOMOUS_STATE.json", "sha256": "1dce48dce8fea1cc5c996f168c48b931908d649b0531cf536eb4132af952e14d"},
     {"path": "verify_final.py", "sha256": "8622246f0c42a11f938509e50fb41281d30a85535e78493eec002b0fcef50b6a"},
     {"ref": "release/universal-theory-certificates", "path": "source_audit.md", "sha256": "9b7cf0563a2f7419669335c88641a47b7b316a1f7275acd2f02af5c3ef44f4fb"},
     {"ref": "release/universal-theory-certificates", "path": "theory.py", "sha256": "72ebc607b009de081624dae13321f76f8ecc913f8da83b56fcb1e59b02d98678"},

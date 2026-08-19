@@ -31,9 +31,9 @@
     "name": "MachineLearning-Nerd",
     "email": "MachineLearning-Nerd@users.noreply.github.com"
   },
-  "verified_reachable_commits": 100,
-  "recovery_bundle_sha256": null,
-  "last_known_git_commit": "2ce4d954e5a27c535f7ded034ab25021ec9e3a34",
+  "verified_reachable_commits": 102,
+  "recovery_bundle_sha256": "23c4368d3b92f72a3b085f162321bddee8db3806d599e21609eed64037d624fe",
+  "last_known_git_commit": "595f2061509bc852a6628bd205b31917fd8e20c7",
   "documentation": {
     "readme": "complete",
     "status": "complete",
@@ -48,6 +48,37 @@
     "reproduction_verdicts": "complete",
     "final_verifier": "complete"
   },
-  "published_dossier": null,
-  "live_verification": null
+  "published_dossier": {
+    "documentation_checkpoint": "595f2061509bc852a6628bd205b31917fd8e20c7",
+    "verified_reachable_commits_after_final_checkpoint": 102,
+    "files": [
+      "README.md",
+      "STATUS.md",
+      "CLAIM_EVIDENCE.md",
+      "SOURCE_AUDIT.md",
+      "ENVIRONMENT.md",
+      "REPORT.md",
+      "BRANCH_AUDIT.md",
+      "branch-audit.md",
+      "claims.json",
+      "reproduction_verdicts.json",
+      "EVIDENCE_MANIFEST.json",
+      "CITATION.cff",
+      "AUTHOR_THANK_YOU.md",
+      "AUTONOMOUS_STATE.json",
+      "verify_final.py"
+    ],
+    "local_verification": "FINAL_AUDIT=VERIFIED branches=64 commits=102 claims=C1:verified_scoped,C2:verified_scoped,C3:verified_scoped,C4:falsified_literal_theorem_formula,C5:falsified_source_table,C6:blocked_source_faithful_empirical historical_score=5/12 c6=blocked",
+    "fresh_clone_verification": "passed",
+    "verified_at_utc": "2026-08-19T11:12:33Z"
+  },
+  "live_verification": {
+    "default_branch": "main",
+    "branch_count": 64,
+    "reachable_commit_identity": "MachineLearning-Nerd <MachineLearning-Nerd@users.noreply.github.com>",
+    "legacy_orx_branches": false,
+    "legacy_work_branches": false,
+    "main_checkpoint": "595f2061509bc852a6628bd205b31917fd8e20c7",
+    "verified_at_utc": "2026-08-19T11:12:33Z"
+  }
 }
